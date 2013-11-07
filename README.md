@@ -7,11 +7,15 @@ Usage
 
 Begin by installing GNU Stow.
 
-For a directory `<dir>` in the root of the git repository, the following
+For a stow package `<package>`, that is a directory in the root of the git repository, the following
 command can be executed:
 
-	stow <dir>
+	stow --target $HOME <package>
 
-This will install the contents of `<dir>` into your home directory.
+This will install the contents of `<package>` into your home directory.
+
+To delete a stow package execute the following:
+
+	stow --delete <dir>
 
 [1]: http://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html
