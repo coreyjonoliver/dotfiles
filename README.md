@@ -1,6 +1,6 @@
 dotfiles
 ========
-My personal dotfiles. The layout is modeled for use with GNU Stow. Special thanks to Brandon Invergo's, whose [blog][1] was where I originally happened upon the idea of using my dotfiles in conjunction with Stow.
+My personal dotfiles. The layout is modeled for use with GNU Stow. Special thanks to Brandon Invergo, whose [blog][1] was where I originally happened upon the idea of using my dotfiles in conjunction with Stow.
 
 Usage
 -----
@@ -16,6 +16,6 @@ This will install the contents of `<package>` into your home directory.
 
 To delete a stow package execute the following:
 
-	stow --delete <dir>
+	stow --delete <package>
 
 [1]: http://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html
