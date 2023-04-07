@@ -1,0 +1,45 @@
+# Enable prompt substitution to allow for parameter expansion and command
+# substitution in prompts
+setopt prompt_subst
+
+# Disable the reading of the global rcs files /etc/zshenv, /etc/zprofile, etc.
+# so only user-specific rpc files are read
+unsetopt GLOBAL_RCS
+
+# Alias common utilities to more modern replacements
+alias cat='bat -p'
+alias ls='exa'
+alias man='tldr'
+
+# Set up fzf command to use a preview window rendered using bat
+alias fzf="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+
+# Initialize and prepare shell completion
+autoload -Uz compinit && compinit
+autoload bashcompinit && bashcompinit
+
+# 1Password
+eval "$(op completion zsh)"; compdef _op op # Generate shell completion code
+
+# iTerm2
+source "$HOME/.iterm2_shell_integration.zsh"
+
+# fzf
+[ -s "$HOME/.fzf.zsh" ] && source "$HOME/.fzf.zsh"
+
+# GitHub CLI
+eval "$(gh completion -s zsh)"; compdef _gh gh  # Generate shell completion code
+
+# jenv
+eval "$(jenv init -)"
+
+# Startship
+starship preset nerd-font-symbols >! $HOME/.config/starship.toml
+
+# zprezto
+source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+
+# zsh-hist
+source "$HOME/.zsh-hist/zsh-hist.plugin.zsh"
+HISTSIZE=$(( 1.2 * SAVEHIST ))
+bindkey "^Z" undo # ^ (control) + Z

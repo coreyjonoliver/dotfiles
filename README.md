@@ -1,21 +1,14 @@
-dotfiles
-========
-My personal dotfiles. The layout is modeled for use with GNU Stow. Special thanks to Brandon Invergo, whose [blog][1] was where I originally happened upon the idea of using my dotfiles in conjunction with Stow.
+# dotfiles
 
-Usage
------
+[![ci](https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/coreyjonoliver/dotfiles/actions)
+[![license](https://img.shields.io/github/license/coreyjonoliver/dotfiles.svg)](https://github.com/coreyjonoliver/blob/main/LICENSE.txt)
 
-Begin by installing GNU Stow.
+My dotfiles managed via [`chezmoi`](https://www.chezmoi.io/).
 
-For a stow package `<package>`, that is a directory in the root of the git repository, the following
-command can be executed:
+## Setup
 
-	stow --target $HOME <package>
+The dotfiles can be installed via:
 
-This will install the contents of `<package>` into your home directory.
-
-To delete a stow package execute the following:
-
-	stow --delete <package>
-
-[1]: http://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html
+```console
+bash -c "$(curl -fsLS raw.githubusercontent.com/coreyjonoliver/dotfiles/main/setup.sh)"
+```

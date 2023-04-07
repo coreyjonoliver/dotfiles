@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+set -e
+
+{{- if eq .chezmoi.os "darwin" }}
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+tap "homebrew/cask-fonts"
+
+cask_args appdir: "/Applications"
+
+brew "artginzburg/tap/sudo-touchid"
+brew "bash"
+brew "bat"
+brew "exa"
+brew "fzf"
+brew "gh"
+brew "git"
+brew "jenv"
+brew "jq"
+brew "jump"
+brew "shellcheck"
+brew "shfmt"
+brew "starship"
+brew "tldr"
+brew "vim"
+brew "zsh"
+
+cask "1password/tap/1password-cli"
+cask "font-fira-code"
+cask "font-fira-code-nerd-font"
+cask "iterm2"
+EOF
+
+{{- if eq .chezmoi.arch "arm64" }}
+if [[ -z $(brew services list | grep "sudo-touchid") ]]; then
+  sudo $HOMEBREW_PREFIX/bin/brew services start sudo-touchid
+fi
+{{ end -}}
+{{ end -}}

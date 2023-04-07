@@ -1,0 +1,30 @@
+zstyle ':prezto:*:*' case-sensitive 'yes'
+zstyle ':prezto:*:*' color 'yes'
+
+zstyle ':prezto:load' pmodule \
+  'autosuggestions' \
+  'completion' \
+  'directory' \
+  'editor' \
+  'environment' \
+  'git' \
+  'history' \
+  'history-substring-search' \
+  'prompt' \
+  'ssh' \
+  'syntax-highlighting' \
+  'terminal' \
+  'utility'
+  
+# Automatically update the title of the terminal window or tab based on the
+# current directory
+zstyle ':prezto:module:terminal' auto-title 'yes'
+
+zstyle ':prezto:module:editor' key-bindings 'vi'
+
+zstyle ':prezto:module:utility' safe-ops 'yes'
+
+zstyle ':prezto:module:completion:*:hosts' etc-host-ignores \
+  '0.0.0.0' '127.0.0.1'
+
+zstyle ':prezto:module:prompt' theme 'starship'

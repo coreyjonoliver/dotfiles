@@ -1,0 +1,49 @@
+[".zprezto"]
+    type = "archive"
+    url = "https://github.com/sorin-ionescu/prezto/archive/fc444f57e11131b2cad68f474bcf1201cba062a4.zip"
+    exact = true
+    stripComponents = 1
+[".zprezto/modules/prompt/external/agnoster"]
+    type = "archive"
+    url = "https://github.com/agnoster/agnoster-zsh-theme/archive/6bba672c7812a76defc3efed9b6369eeee2425dc.zip"
+    exact = true
+    stripComponents = 1
+[".zprezto/modules/prompt/external/powerlevel10k"]
+    type = "archive"
+    url = "https://github.com/romkatv/powerlevel10k/archive/a066b55f855c8e488d3ea9e26e861bdd5ecd4fe8.zip"
+    exact = true
+    stripComponents = 1
+[".zprezto/modules/prompt/external/powerline"]
+    type = "archive"
+    url = "https://github.com/davidjrice/prezto_powerline/archive/c48e4c69ef5c368ea7cda961ed9d0e298a5ae1fc.zip"
+    exact = true
+    stripComponents = 1
+[".zprezto/modules/prompt/external/pure"]
+    type = "archive"
+    url = "https://github.com/sindresorhus/pure/archive/5b458ba5b75f49a8071d53c343f1a23631f7bced.zip"
+    exact = true
+    stripComponents = 1
+[".zprezto/modules/autosuggestions/external"]
+    type = "archive"
+    url = "https://github.com/zsh-users/zsh-autosuggestions/archive/refs/tags/v0.7.0.zip"
+    exact = true
+    stripComponents = 1
+[".zprezto/modules/history-substring-search/external"]
+    type = "archive"
+    url = "https://github.com/zsh-users/zsh-history-substring-search/archive/400e58a87f72ecec14f783fbd29bc6be4ff1641c.zip"
+    exact = true
+    stripComponents = 1
+[".zprezto/modules/syntax-highlighting/external"]
+    type = "archive"
+    url = "https://github.com/zsh-users/zsh-syntax-highlighting/archive/754cefe0181a7acd42fdcb357a67d0217291ac47.zip"
+    exact = true
+    stripComponents = 1
+[".zsh-hist"]
+    type = "archive"
+    url = "https://github.com/marlonrichert/zsh-hist/archive/6b0e5e65bc477357b66df35cd93a1752bae85e03.zip"
+    exact = true
+    stripComponents = 1
+[".iterm2_shell_integration.zsh"]
+    type = "file"
+    url = "https://iterm2.com/shell_integration/zsh"
+    refreshPeriod = 0

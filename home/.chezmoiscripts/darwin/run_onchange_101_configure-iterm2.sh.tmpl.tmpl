@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# Set the default profile
+defaults write com.googlecode.iterm2 DynamicProfilesPath -string "$HOME/.config/iterm2/DynamicProfiles"
+defaults write com.googlecode.iterm2 "Default Bookmark Guid" 'B3D74264-AA2C-4E8D-B2C2-D02B9CFD373E'
+
+# Silence warnings about changes to dynamic profiles being lost
+defaults write com.googlecode.iterm2 NoSyncDynamicProfileChangeWillBeLost_SilenceUntil -float 31536000000000
+defaults write com.googlecode.iterm2 NoSyncDynamicProfileChangeWillBeLost_selection -int 0
+{{ end -}}

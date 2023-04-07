@@ -1,0 +1,9 @@
+README.md
+LICENSE.md
+
+.gitignore
+
+{{- if ne .chezmoi.os "darwin" }}
+.chezmoiscripts/darwin
+.config/iterm2
+{{- end }}

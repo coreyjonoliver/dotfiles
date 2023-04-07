@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+{{- if eq .chezmoi.os "darwin" }}
+# Install homebrew
+if ! command -v brew &> /dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Opt out of Homebrew analytics
+brew analytics off
+
+# Install chezmoi
+if ! command -v chezmoi &> /dev/null; then
+  brew install chezmoi
+fi
+{{ end -}}

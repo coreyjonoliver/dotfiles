@@ -1,0 +1,52 @@
+export EDITOR='vim' VISUAL='code -w'
+export PAGER='bat -p'
+export LESS='-R' LESSHISTFILE='/dev/null'
+
+path+=(
+  "$HOME/bin"
+  '/usr/local/sbin'
+  '/usr/local/bin'
+  "$HOMEBREW_PREFIX/bin"
+  '/usr/sbin'
+  '/usr/bin'
+  '/sbin'
+  '/bin'
+  '/Applications/Visual Studio Code.app/Contents/Resources/app/bin' # Visual Studio Code (code)
+)
+
+manpath=(
+  '/usr/local/share/man'
+  "$HOMEBREW_PREFIX/share/man"
+  '/usr/share/man'
+)
+
+export PATH MANPATH
+
+fpath=(
+  "$HOMEBREW_PREFIX/share/zsh/site-functions"
+  "$HOMEBREW_PREFIX/share/zsh-completions"
+  "$HOME/.zfunctions"
+  $fpath
+)
+
+# 1Password
+
+# Set the SSH_AUTH_SOCK environment variable to the path of the 1Password SSH
+# agent socket, allowing the op command-line tool to manage SSH keys and provide
+# secure authentication for SSH connections
+export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+
+# AWS CLI
+export AWS_DEFAULT_OUTPUT='json'
+export AWS_PAGER='bat -l json -p'
+
+# bat
+export BAT_THEME='Nord' BAT_PAGER='less -RF'
+export MANPAGER="sh -c 'col -b | bat -l man -p'"
+
+# iTerm2
+export ITERM2_SQUELCH_MARK=1 # Ignore escape sequences used to change the window/tab title
+
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+

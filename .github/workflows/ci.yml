@@ -1,0 +1,28 @@
+name: Continous Integration
+
+on:
+  pull_request:
+    branches: ['**']
+  push:
+    branches-ignore:
+      - main
+
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Run snippet
+    runs-on: macos-latest
+    steps:
+      - run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            branch_name="${{ github.ref_name }}"
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            branch_name="${{ github.head_ref }}"
+          fi
+
+          url="https://raw.githubusercontent.com/coreyjonoliver/dotfiles/${branch_name}/setup.sh"
+            
+          DOTFILES_BRANCH_NAME="$branch_name" bash -c "$(curl -fsLS "$url")"
