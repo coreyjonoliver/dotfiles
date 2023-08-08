@@ -10,5 +10,5 @@ My dotfiles managed via [`chezmoi`](https://www.chezmoi.io/).
 The dotfiles can be installed via:
 
 ```console
-bash -c "$(curl -fsLS raw.githubusercontent.com/coreyjonoliver/dotfiles/main/setup.sh)"
+sh -c "$(curl -fsLS raw.githubusercontent.com/coreyjonoliver/dotfiles/main/setup.sh)"
 ```
