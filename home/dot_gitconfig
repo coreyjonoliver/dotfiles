@@ -1,0 +1,13 @@
+[user]
+  email = corey.jon.oliver@gmail.com
+  name = Corey Oliver
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBDXrggGeoyxNCZDYUdxU3rpFLusAsRg4Fg7rk9sAhmZ
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[commit]
+  gpgsign = true
