@@ -1,0 +1,27 @@
+{
+  "editor.fontFamily": "'MesloLGS Nerd Font', 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontSize": 14,
+  "editor.lineHeight": 1.6,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.minimap.enabled": false,
+  "editor.wordWrap": "off",
+  "editor.renderWhitespace": "boundary",
+  "editor.suggestSelection": "first",
+
+  "files.autoSave": "onFocusChange",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.fontFamily": "'MesloLGS Nerd Font', Menlo, Monaco",
+  "terminal.integrated.fontSize": 13,
+
+  "workbench.startupEditor": "none",
+
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false
+}

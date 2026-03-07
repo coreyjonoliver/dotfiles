@@ -1,0 +1,29 @@
+# Global mise configuration
+# https://mise.jdx.dev/configuration.html
+#
+# Per-project versions override these via .mise.toml or .tool-versions
+# in the project directory.
+#
+# Install a tool:  mise install python@3.12
+# Use globally:    mise use --global python@3.12
+# Use in project:  mise use python@3.12  (creates .mise.toml in cwd)
+# List installed:  mise list
+# List available:  mise list-all python
+
+[tools]
+python = "latest"
+node = "lts"
+java = "temurin-21"
+go = "latest"
+terraform = "latest"
+
+[settings]
+# Automatically install missing tools when entering a directory
+# with a .mise.toml or .tool-versions
+auto_install = true
+
+# Use verbose output for installs
+verbose = false
+
+# Trust all .mise.toml files in these directories without prompting
+trusted_config_paths = ["~/Projects"]

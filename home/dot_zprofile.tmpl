@@ -1,0 +1,18 @@
+# --- PATH ---
+{{ if eq .chezmoi.os "darwin" -}}
+# Homebrew (Apple Silicon)
+if [[ -d /opt/homebrew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+{{- end }}
+
+# User binaries
+if [[ -d "${HOME}/.local/bin" ]]; then
+    export PATH="${HOME}/.local/bin:${PATH}"
+fi
+
+# --- Environment ---
+export EDITOR="vim"
+export VISUAL="${EDITOR}"
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"

@@ -1,0 +1,16 @@
+{{- range .darwin.brews.taps }}
+tap {{ . | quote }}
+{{- end }}
+
+{{- range .darwin.brews.formulae }}
+brew {{ . | quote }}
+{{- end }}
+
+{{- range .darwin.brews.casks }}
+cask {{ . | quote }}
+{{- end }}
+
+{{- range .darwin.mas.apps }}
+{{- $parts := splitList ":" . }}
+mas {{ index $parts 1 | quote }}, id: {{ index $parts 0 }}
+{{- end }}

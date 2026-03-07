@@ -1,0 +1,34 @@
+# Ghostty Configuration
+# Reload: Cmd+Shift+,
+# List themes: ghostty +list-themes
+# List fonts:  ghostty +list-fonts
+# Full docs:   ghostty +show-config --default --docs
+
+# --- Font ---
+font-family = MesloLGS Nerd Font
+font-size = 14
+
+# --- Window ---
+window-padding-x = 8
+window-padding-y = 4
+window-save-state = always
+window-decoration = auto
+
+# --- Theme ---
+# Tokyo Night theme (matches starship preset)
+theme = TokyoNight
+
+# --- Shell ---
+shell-integration = detect
+
+# --- Behavior ---
+copy-on-select = clipboard
+confirm-close-surface = false
+mouse-hide-while-typing = true
+
+# --- Cursor ---
+cursor-style = block
+cursor-style-blink = false
+
+# --- Scrollback ---
+scrollback-limit = 50000

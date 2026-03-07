@@ -1,0 +1,21 @@
+# 1Password SSH Agent Configuration
+# https://developer.1password.com/docs/ssh/agent/config/
+#
+# By default, all SSH keys stored in 1Password are available to the agent.
+# Use this file to restrict which keys are offered, or to pin keys to hosts.
+#
+# Example: Only offer specific keys
+# [[ssh-keys]]
+# vault = "Private"
+#
+# Example: Pin a key to a specific host
+# [[ssh-keys]]
+# item = "GitHub SSH Key"
+# vault = "Development"
+# account = "my.1password.com"
+#
+# Example: Pin key to host pattern
+# [[ssh-keys]]
+# item = "Work SSH Key"
+# vault = "Work"
+# host = "*.internal.company.com"

@@ -1,0 +1,22 @@
+# Task runner
+.task/
+
+# Build artifacts
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor swap/backup files
+*.swp
+*.swo
+*.bak
+*~
+
+# Benchmark output
+benchmark-results.json
+
+# Environment files (should never be committed)
+.env
+.env.local

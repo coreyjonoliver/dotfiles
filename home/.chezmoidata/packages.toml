@@ -1,0 +1,37 @@
+[darwin]
+  [darwin.brews]
+    taps = [
+      "siderolabs/tap",
+      "fluxcd/tap",
+    ]
+
+    formulae = [
+      "chezmoi",
+      "eza",
+      "gh",
+      "git",
+      "go-task",
+      "mas",          # add mas CLI to install App Store apps
+      "mise",
+      "neovim",
+      "rustup",
+      "siderolabs/tap/sidero-tools",
+      "starship",
+      "zoxide",
+      "fluxcd/tap/flux",
+    ]
+
+    casks = [
+      "1password-cli",
+      "font-meslo-lg-nerd-font",
+      "ghostty",
+      "private-internet-access",
+      "visual-studio-code",
+      "warp",
+      "docker-desktop",
+    ]
+
+  [darwin.mas]
+    apps = [
+      "417375580:BetterSnapTool",
+    ]

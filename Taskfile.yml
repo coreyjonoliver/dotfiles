@@ -1,0 +1,89 @@
+version: '3'
+
+vars:
+  CHEZMOI_SOURCE: '{{.ROOT_DIR}}'
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+
+  install:
+    desc: Initialize and apply dotfiles from local source
+    cmds:
+      - chezmoi init --apply --source {{.CHEZMOI_SOURCE}}
+
+  apply:
+    desc: Apply dotfiles changes
+    cmds:
+      - chezmoi apply --source {{.CHEZMOI_SOURCE}}
+
+  diff:
+    desc: Show pending changes
+    cmds:
+      - chezmoi diff --source {{.CHEZMOI_SOURCE}}
+
+  status:
+    desc: Show dotfiles status
+    cmds:
+      - chezmoi status --source {{.CHEZMOI_SOURCE}}
+
+  edit:
+    desc: Edit a managed file (usage -- task edit -- ~/.zshrc)
+    cmds:
+      - chezmoi edit --source {{.CHEZMOI_SOURCE}} {{.CLI_ARGS}}
+
+  data:
+    desc: Show template data
+    cmds:
+      - chezmoi data --source {{.CHEZMOI_SOURCE}}
+
+  doctor:
+    desc: Validate chezmoi environment
+    cmds:
+      - chezmoi doctor
+
+  brew:
+    desc: Install Homebrew packages from Brewfile
+    platforms: [darwin]
+    cmds:
+      - brew bundle --file="${HOME}/.config/homebrew/Brewfile"
+
+  defaults:
+    desc: Apply macOS system defaults
+    platforms: [darwin]
+    cmds:
+      - bash home/.chezmoiscripts/darwin/run_onchange_after_configure-defaults.sh
+
+  update:
+    desc: Pull latest changes and apply
+    cmds:
+      - chezmoi update --source {{.CHEZMOI_SOURCE}}
+
+  lint:
+    desc: Lint shell scripts with ShellCheck
+    cmds:
+      - bash scripts/lint.sh
+
+  test:
+    desc: Run Bats test suite
+    cmds:
+      - bats tests/
+
+  benchmark:
+    desc: Benchmark zsh startup time
+    platforms: [darwin, linux]
+    cmds:
+      - bash scripts/run_benchmark.sh
+
+  ci:
+    desc: Run full CI pipeline locally (lint + test)
+    cmds:
+      - task: lint
+      - task: test
+
+  clean:
+    desc: Remove chezmoi state (keeps applied dotfiles)
+    cmds:
+      - chezmoi purge --force

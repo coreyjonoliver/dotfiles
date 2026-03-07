@@ -1,9 +1,14 @@
 README.md
-LICENSE.md
+LICENSE
 
-.gitignore
+{{ if ne .chezmoi.os "darwin" }}
+.chezmoiscripts/darwin/**
+.config/homebrew/**
+.config/1Password/**
+.ssh/config
+{{ end }}
 
-{{- if ne .chezmoi.os "darwin" }}
-.chezmoiscripts/darwin
-.config/iterm2
-{{- end }}
+{{ if ne .chezmoi.os "windows" }}
+.chezmoiscripts/windows/**
+Documents/WindowsPowerShell/**
+{{ end }}

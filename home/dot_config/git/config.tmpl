@@ -1,0 +1,73 @@
+[user]
+    name = {{ .name | quote }}
+    email = {{ .email | quote }}
+{{- if .use_1password }}
+    signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBDXrggGeoyxNCZDYUdxU3rpFLusAsRg4Fg7rk9sAhmZ" {{- /* Replace with your actual 1Password SSH public key */ -}}
+{{- end }}
+
+[github]
+    user = {{ .github_username | quote }}
+
+[init]
+    defaultBranch = {{ .git.default_branch }}
+
+[core]
+    excludesFile = ~/.config/git/ignore
+    attributesFile = ~/.config/git/attributes
+    autocrlf = input
+    editor = {{ .git.editor }}
+    pager = less -FRX
+
+[commit]
+    template = ~/.config/git/message
+{{- if .use_1password }}
+    gpgsign = true
+{{- end }}
+
+[tag]
+{{- if .use_1password }}
+    gpgsign = true
+{{- end }}
+
+{{- if .use_1password }}
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{- end }}
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+    default = current
+
+[fetch]
+    prune = true
+
+[rebase]
+    autoStash = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+    algorithm = histogram
+
+[rerere]
+    enabled = true
+
+[filter "lfs"]
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+
+[alias]
+{{- range $name, $cmd := .git.aliases }}
+    {{ $name }} = {{ $cmd | quote }}
+{{- end }}

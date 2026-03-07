@@ -1,0 +1,14 @@
+{{- if eq .chezmoi.os "darwin" }}
+# --- 1Password SSH Agent ---
+# Uses the 1Password SSH agent for key management.
+# Keys are stored in 1Password and never touch disk.
+# See: https://developer.1password.com/docs/ssh/agent/
+Host *
+    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+
+# --- 1Password SSH Bookmarks ---
+# Auto-generated host configs from 1Password SSH bookmarks.
+# Enable "Generate SSH config file with bookmarked hosts" in
+# 1Password > Settings > Developer to populate this file.
+Include ~/.ssh/1Password/config
+{{- end }}

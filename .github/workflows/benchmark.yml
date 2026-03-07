@@ -1,0 +1,50 @@
+name: Benchmark
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    name: Shell Startup Benchmark
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsSL https://get.chezmoi.io)" -- -b /usr/local/bin
+
+      - name: Install hyperfine
+        run: brew install hyperfine
+
+      - name: Create test config
+        run: |
+          mkdir -p "${HOME}/.config/chezmoi"
+          cat > "${HOME}/.config/chezmoi/chezmoi.toml" << 'EOF'
+          [data]
+              name = "Test User"
+              email = "test@example.com"
+              personal = true
+              use_1password = false
+          EOF
+
+      - name: Apply dotfiles
+        run: chezmoi apply --source "${GITHUB_WORKSPACE}"
+
+      - name: Run benchmark
+        run: bash scripts/run_benchmark.sh
+
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: customSmallerIsBetter
+          output-file-path: benchmark-results.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          alert-threshold: "150%"
+          comment-on-alert: true
+          fail-on-alert: false
+          benchmark-data-dir-path: benchmarks

@@ -1,0 +1,12 @@
+{{ template "shell-header.tmpl" }}
+
+# packages.toml hash: {{ include ".chezmoidata/packages.toml" | sha256sum }}
+
+echo "==> Installing Homebrew packages..."
+
+# Ensure Homebrew is available in PATH
+if [[ -d /opt/homebrew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+brew bundle --file="${HOME}/.config/homebrew/Brewfile"

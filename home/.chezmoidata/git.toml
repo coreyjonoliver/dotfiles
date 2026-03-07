@@ -1,0 +1,41 @@
+[git]
+  default_branch = "main"
+  editor = "nvim"
+
+  # Git aliases (beyond the basics in config.tmpl)
+  # These are defined here so they're easy to find and edit.
+  [git.aliases]
+    # Logging
+    lg = "log --oneline --graph --decorate -20"
+    lga = "log --oneline --graph --decorate --all"
+    last = "log -1 HEAD --stat"
+
+    # Shortcuts
+    st = "status"
+    co = "checkout"
+    br = "branch"
+    ci = "commit"
+    sw = "switch"
+    cp = "cherry-pick"
+
+    # Undo / fix
+    unstage = "reset HEAD --"
+    amend = "commit --amend --no-edit"
+    undo = "reset --soft HEAD~1"
+
+    # Diff
+    df = "diff"
+    dfs = "diff --staged"
+    dfw = "diff --word-diff"
+
+    # Branch cleanup
+    gone = "!git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D"
+    merged = "!git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d"
+
+    # Stash
+    sl = "stash list"
+    sp = "stash pop"
+    ss = "stash push -m"
+
+    # Contributors
+    contributors = "shortlog -sn --no-merges"

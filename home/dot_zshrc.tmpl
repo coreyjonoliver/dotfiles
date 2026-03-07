@@ -1,0 +1,103 @@
+# --- History ---
+HISTFILE="${HOME}/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+
+setopt EXTENDED_HISTORY       # Write timestamps to history
+setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicates first when trimming
+setopt HIST_FIND_NO_DUPS      # Ignore duplicates in search
+setopt HIST_IGNORE_DUPS       # Ignore consecutive duplicates
+setopt HIST_IGNORE_SPACE      # Ignore commands that start with space
+setopt HIST_VERIFY            # Show expanded history before executing
+setopt SHARE_HISTORY          # Share history between sessions
+
+# --- Completion ---
+autoload -Uz compinit
+compinit
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# --- Directory navigation ---
+setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+
+# --- Aliases ---
+# Use eza if available (modern ls replacement)
+if command -v eza &>/dev/null; then
+    alias ls='eza --icons'
+    alias ll='eza -lah --icons --git'
+    alias la='eza -a --icons'
+    alias l='eza --icons'
+    alias tree='eza --tree --icons'
+else
+    alias ll='ls -lAh'
+    alias la='ls -A'
+    alias l='ls -CF'
+fi
+
+alias gs='git status'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git log --oneline --graph --decorate -20'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+
+{{ if eq .chezmoi.os "darwin" -}}
+alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
+{{- end }}
+
+# --- Functions ---
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# --- Zoxide (smarter cd) ---
+if command -v zoxide &>/dev/null; then
+    eval "$(zoxide init zsh)"
+fi
+
+# --- Version manager (mise) ---
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
+# --- Rust ---
+if [[ -f "${HOME}/.cargo/env" ]]; then
+    source "${HOME}/.cargo/env"
+fi
+
+# --- Tool completions ---
+if command -v gh &>/dev/null; then
+    eval "$(gh completion -s zsh)"
+fi
+
+if command -v kubectl &>/dev/null; then
+    eval "$(kubectl completion zsh)"
+fi
+
+if command -v talosctl &>/dev/null; then
+    eval "$(talosctl completion zsh)"
+fi
+
+# --- Plugins ---
+if [[ -d "${HOME}/.zsh/plugins/zsh-autosuggestions" ]]; then
+    source "${HOME}/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
+
+# Note: zsh-syntax-highlighting must be sourced last
+if [[ -d "${HOME}/.zsh/plugins/zsh-syntax-highlighting" ]]; then
+    source "${HOME}/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+
+# --- Prompt ---
+if command -v starship &>/dev/null; then
+    eval "$(starship init zsh)"
+else
+    PROMPT='%F{blue}%~%f %F{green}❯%f '
+fi

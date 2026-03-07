@@ -1,0 +1,38 @@
+# Auto-detect text files and normalize line endings
+* text=auto
+
+# Documents
+*.md    diff=markdown
+*.mdx   diff=markdown
+
+# Web
+*.css   diff=css
+*.html  diff=html
+*.htm   diff=html
+
+# Scripts
+*.bash  diff=bash
+*.sh    diff=bash
+*.zsh   diff=bash
+
+# Programming languages
+*.go    diff=golang
+*.py    diff=python
+*.rb    diff=ruby
+*.rs    diff=rust
+
+# Binary files (never diff)
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.webp  binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.eot   binary
+*.pdf   binary
+*.zip   binary
+*.tar   binary
+*.gz    binary

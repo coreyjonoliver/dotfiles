@@ -1,28 +1,70 @@
-name: Continous Integration
+name: CI
 
 on:
-  pull_request:
-    branches: ['**']
   push:
-    branches-ignore:
-      - main
-
-concurrency:
-  group: build-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  build:
-    name: Run snippet
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Lint shell scripts
+        run: bash scripts/lint.sh
+
+  smoke-test:
+    name: Smoke Test (macOS)
     runs-on: macos-latest
     steps:
-      - run: |
-          if [ "${{ github.event_name }}" == "push" ]; then
-            branch_name="${{ github.ref_name }}"
-          elif [ "${{ github.event_name }}" == "pull_request" ]; then
-            branch_name="${{ github.head_ref }}"
-          fi
+      - uses: actions/checkout@v4
 
-          url="https://raw.githubusercontent.com/coreyjonoliver/dotfiles/${branch_name}/setup.sh"
-            
-          DOTFILES_BRANCH_NAME="$branch_name" bash -c "$(curl -fsLS "$url")"
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsSL https://get.chezmoi.io)" -- -b /usr/local/bin
+
+      - name: Create test config
+        run: |
+          mkdir -p "${HOME}/.config/chezmoi"
+          cat > "${HOME}/.config/chezmoi/chezmoi.toml" << 'EOF'
+          [data]
+              name = "Test User"
+              email = "test@example.com"
+              personal = true
+              use_1password = false
+          EOF
+
+      - name: Apply dotfiles (dry run)
+        run: chezmoi apply --source "${GITHUB_WORKSPACE}" --dry-run --verbose
+
+      - name: Apply dotfiles
+        run: chezmoi apply --source "${GITHUB_WORKSPACE}"
+
+      - name: Verify .zshrc exists
+        run: test -f "${HOME}/.zshrc"
+
+      - name: Verify .zprofile exists
+        run: test -f "${HOME}/.zprofile"
+
+      - name: Verify git config exists
+        run: test -f "${HOME}/.config/git/config"
+
+      - name: Verify git ignore exists
+        run: test -f "${HOME}/.config/git/ignore"
+
+      - name: Verify starship config exists
+        run: test -f "${HOME}/.config/starship.toml"
+
+      - name: Verify nvim config exists
+        run: test -f "${HOME}/.config/nvim/init.lua"
+
+      - name: Verify zshrc syntax
+        run: zsh -n "${HOME}/.zshrc"
+
+      - name: Verify git config contains user name
+        run: grep -q "Test User" "${HOME}/.config/git/config"

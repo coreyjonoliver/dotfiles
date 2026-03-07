@@ -1,0 +1,23 @@
+
+
+# <type>: <subject> (50 chars max)
+#
+# <body> (72 chars per line)
+#
+# <footer>
+#
+# Types:
+#   feat     — new feature
+#   fix      — bug fix
+#   docs     — documentation only
+#   style    — formatting, no logic change
+#   refactor — neither fixes a bug nor adds a feature
+#   perf     — performance improvement
+#   test     — adding/updating tests
+#   chore    — tooling, CI, dependencies
+#
+# Rules:
+#   - Subject line: imperative mood ("add" not "added")
+#   - No period at end of subject
+#   - Blank line between subject and body
+#   - Body: explain what and why, not how
