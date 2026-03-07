@@ -35,6 +35,7 @@ jobs:
           [data]
               name = "Test User"
               email = "test@example.com"
+              github_username = "testuser"
               personal = true
               use_1password = false
           EOF
