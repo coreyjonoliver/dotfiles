@@ -38,6 +38,8 @@ jobs:
       - name: Run benchmark
         run: bash scripts/run_benchmark.sh
 
+      # Requires a gh-pages branch. Create with:
+      #   git checkout --orphan gh-pages && git rm -rf . && git commit --allow-empty -m "Init gh-pages" && git push origin gh-pages && git checkout -
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
