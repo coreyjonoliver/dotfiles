@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773025442558,
+  "lastUpdate": 1773025580138,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -29,6 +29,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.06719906934,
             "range": "0.0016748720629141977",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "920af0aa8d5113c9574bfcf5be051e1ecc976cd0",
+          "message": "Merge pull request #2 from coreyjonoliver/add-gh-pages-setup\n\nAdd gh-pages setup note to benchmark workflow",
+          "timestamp": "2026-03-08T22:05:58-05:00",
+          "tree_id": "f2c86ed3c2415636528b8320faa4d8113d32459a",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/920af0aa8d5113c9574bfcf5be051e1ecc976cd0"
+        },
+        "date": 1773025578906,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.06435803145999999,
+            "range": "0.002373979297331963",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
