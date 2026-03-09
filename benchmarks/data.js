@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773026085963,
+  "lastUpdate": 1773026181478,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -91,6 +91,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.06678267746000001,
             "range": "0.0066542717097259705",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8f0cb6fa497f9ffc1baf55a019c0aec787a16cf8",
+          "message": "Merge pull request #4 from coreyjonoliver/remove-ref\n\nRemove COMPONENTS.md reference in README",
+          "timestamp": "2026-03-08T22:15:51-05:00",
+          "tree_id": "cca4c17f13d9c93193e412d7c839be453d911307",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/8f0cb6fa497f9ffc1baf55a019c0aec787a16cf8"
+        },
+        "date": 1773026180523,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.12043051178,
+            "range": "0.031259242090304756",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
