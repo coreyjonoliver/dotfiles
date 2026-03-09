@@ -33,7 +33,7 @@ jobs:
           EOF
 
       - name: Apply dotfiles
-        run: chezmoi apply --source "${GITHUB_WORKSPACE}"
+        run: chezmoi apply --source "${GITHUB_WORKSPACE}" --exclude=scripts
 
       - name: Run benchmark
         run: bash scripts/run_benchmark.sh

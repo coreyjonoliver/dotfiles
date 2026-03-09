@@ -41,10 +41,10 @@ jobs:
           EOF
 
       - name: Apply dotfiles (dry run)
-        run: chezmoi apply --source "${GITHUB_WORKSPACE}" --dry-run --verbose
+        run: chezmoi apply --source "${GITHUB_WORKSPACE}" --exclude=scripts --dry-run --verbose
 
       - name: Apply dotfiles
-        run: chezmoi apply --source "${GITHUB_WORKSPACE}"
+        run: chezmoi apply --source "${GITHUB_WORKSPACE}" --exclude=scripts
 
       - name: Verify .zshrc exists
         run: test -f "${HOME}/.zshrc"
