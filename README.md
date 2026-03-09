@@ -75,8 +75,6 @@ dotfiles/
 | **Versions** | `dot_config/mise/config.toml` | mise-managed Python, Node.js, Java, Go, and Terraform |
 | **SSH** | `private_dot_ssh/config.tmpl`, `dot_config/private_1Password/` | 1Password SSH agent and key management |
 
-See [docs/COMPONENTS.md](docs/COMPONENTS.md) for detailed documentation on each component.
-
 ## Daily Usage
 
 ```bash
