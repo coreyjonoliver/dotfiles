@@ -74,6 +74,7 @@ dotfiles/
 | **Terminals** | `dot_config/ghostty/config` | Ghostty with MesloLGS Nerd Font and Tokyo Night theme |
 | **Versions** | `dot_config/mise/config.toml` | mise-managed Python, Node.js, Java, Go, and Terraform |
 | **SSH** | `private_dot_ssh/config.tmpl`, `dot_config/private_1Password/` | 1Password SSH agent and key management |
+| **Brave** | `.chezmoiscripts/darwin/configure-brave`, `.local/bin/brave-private` | Isolated Private instance with PIA desktop VPN (auto kill switch), domain allowlist extension (Proton-only by default), hardened shields, DNS-over-HTTPS, WebRTC lockdown, 1Password |
 
 ## Daily Usage
 

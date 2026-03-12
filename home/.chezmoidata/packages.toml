@@ -23,6 +23,7 @@
 
     casks = [
       "1password-cli",
+      "brave-browser",
       "font-meslo-lg-nerd-font",
       "ghostty",
       "private-internet-access",

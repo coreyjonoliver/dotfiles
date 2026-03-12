@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "brave-private Allowlist",
+  "version": "1.0.0",
+  "description": "Blocks navigation to all domains except those explicitly allowed. Managed by brave-private dotfiles.",
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
+  "icons": {},
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "allowlist_rules",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
+}

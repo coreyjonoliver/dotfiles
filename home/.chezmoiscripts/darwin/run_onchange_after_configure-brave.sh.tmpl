@@ -1,0 +1,372 @@
+{{ template "shell-header.tmpl" }}
+
+# packages.toml hash: {{ include ".chezmoidata/packages.toml" | sha256sum }}
+
+echo "==> Configuring Brave Browser..."
+
+BRAVE_APP="/Applications/Brave Browser.app"
+PRIVATE_DIR="${HOME}/.config/brave-private"
+PRIVATE_USER_DATA="${PRIVATE_DIR}/user-data"
+PRIVATE_PROFILE_DIR="${PRIVATE_USER_DATA}/Default"
+EXTENSION_DIR="${PRIVATE_DIR}/extension"
+ALLOWLIST_FILE="${PRIVATE_DIR}/allowlist.conf"
+
+# ── 0. Verify Brave is installed ─────────────────────────────────────────────
+if [[ ! -d "${BRAVE_APP}" ]]; then
+    echo "    ⚠  Brave Browser not found — skipping configuration"
+    echo "    Run 'brew install --cask brave-browser' first"
+    exit 0
+fi
+
+# ── 1. Create the private instance's user-data directory ─────────────────────
+#    Using a separate --user-data-dir means this runs as an entirely independent
+#    Brave process. It can launch alongside your normal Brave, and startup flags
+#    like --load-extension are always honoured.
+mkdir -p "${PRIVATE_PROFILE_DIR}"
+
+# ── 2. Write hardened Preferences ─────────────────────────────────────────────
+echo "    → Writing hardened preferences..."
+
+cat > "${PRIVATE_PROFILE_DIR}/Preferences" << 'PREFS_EOF'
+{
+  "profile": {
+    "name": "Private",
+    "avatar_index": 26,
+    "default_content_setting_values": {
+      "cookies": 4,
+      "brave_fingerprinting_v2": 1,
+      "brave_shields": 1
+    },
+    "cookie_controls_mode": 1
+  },
+  "brave": {
+    "shields": {
+      "advanced_view_enabled": true,
+      "stats_badge_visible": true,
+      "ads_tracking_default": "block",
+      "cosmetic_filtering_default": "aggressive",
+      "cookie_default": "block_third_party",
+      "fingerprinting_default": "strict",
+      "httpse_default": "block"
+    },
+    "de_amp": {
+      "enabled": true
+    },
+    "debounce": {
+      "enabled": true
+    },
+    "shields_tooltip_shown": true,
+    "https_only_mode_enabled": true,
+    "forgot_first_party_storage_enabled": true
+  },
+  "webrtc": {
+    "ip_handling_policy": "disable_non_proxied_udp",
+    "multiple_routes_enabled": false,
+    "nonproxied_udp_enabled": false
+  },
+  "dns_over_https": {
+    "mode": "secure",
+    "templates": "https://cloudflare-dns.com/dns-query"
+  },
+  "safebrowsing": {
+    "enabled": true,
+    "enhanced": true
+  },
+  "enable_do_not_track": true,
+  "privacy_sandbox": {
+    "m1": {
+      "topics_enabled": false,
+      "fledge_enabled": false,
+      "ad_measurement_enabled": false
+    }
+  },
+  "autofill": {
+    "credit_card_enabled": false,
+    "profile_enabled": false
+  },
+  "credentials_enable_service": false,
+  "payments": {
+    "can_make_payment_enabled": false
+  },
+  "search": {
+    "suggest_enabled": false
+  },
+  "translate": {
+    "enabled": false
+  }
+}
+PREFS_EOF
+
+echo "    ✓ Hardened preferences written"
+
+# ── 3. Configure PIA desktop VPN ─────────────────────────────────────────────
+echo "    → Configuring PIA desktop VPN..."
+
+if command -v piactl &>/dev/null; then
+    piactl set killswitch always 2>/dev/null && \
+        echo "    ✓ PIA kill switch set to 'always'" || \
+        echo "    ⚠  Could not set PIA kill switch (is PIA running?)"
+else
+    echo "    ⚠  piactl not found — install PIA desktop app first"
+    echo "       brew install --cask private-internet-access"
+fi
+
+# ── 4. Create the brave-private helper script ────────────────────────────────
+HELPER_DIR="${HOME}/.local/bin"
+HELPER="${HELPER_DIR}/brave-private"
+mkdir -p "${HELPER_DIR}"
+
+cat > "${HELPER}" << 'SCRIPT_EOF'
+#!/bin/bash
+# brave-private — launch a hardened, isolated Brave instance
+#
+# This runs Brave with its own --user-data-dir, completely separate from
+# your normal Brave. It can run side-by-side with your Default Brave and
+# all startup flags (--load-extension, etc.) are always honoured.
+#
+# Workflow:
+#   1. Connects PIA desktop VPN (with kill switch)
+#   2. Generates declarativeNetRequest rules from domain allowlist
+#   3. Launches isolated Brave with the allowlist extension loaded
+#
+# Usage:
+#   brave-private                  # connect VPN + launch with allowlist
+#   brave-private --no-vpn         # skip VPN (allowlist still applied)
+#
+# Domain allowlist:
+#   ~/.config/brave-private/allowlist.conf
+
+set -euo pipefail
+
+BRAVE="/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+CONFIG_DIR="${HOME}/.config/brave-private"
+USER_DATA_DIR="${CONFIG_DIR}/user-data"
+ALLOWLIST_FILE="${CONFIG_DIR}/allowlist.conf"
+EXTENSION_DIR="${CONFIG_DIR}/extension"
+RULES_FILE="${EXTENSION_DIR}/rules.json"
+PIA_CONNECT_TIMEOUT=30
+
+SKIP_VPN=false
+if [[ "${1:-}" == "--no-vpn" ]]; then
+    SKIP_VPN=true
+    shift
+fi
+
+# ── Helper functions ─────────────────────────────────────────────────────────
+
+die() { echo "[brave-private] ✖ $1" >&2; exit 1; }
+info() { echo "[brave-private] $1"; }
+
+# ── 1. Connect PIA desktop VPN ───────────────────────────────────────────────
+
+if [[ "${SKIP_VPN}" == "false" ]]; then
+    if ! command -v piactl &>/dev/null; then
+        die "piactl not found — install PIA desktop app"
+    fi
+
+    PIA_STATE=$(piactl get connectionstate 2>/dev/null || echo "unknown")
+
+    if [[ "${PIA_STATE}" == "Connected" ]]; then
+        info "PIA VPN already connected"
+    else
+        info "Connecting PIA VPN..."
+        piactl connect || die "Failed to start PIA connection"
+
+        ELAPSED=0
+        while [[ "$(piactl get connectionstate 2>/dev/null)" != "Connected" ]]; do
+            if (( ELAPSED >= PIA_CONNECT_TIMEOUT )); then
+                die "PIA failed to connect within ${PIA_CONNECT_TIMEOUT}s"
+            fi
+            sleep 1
+            ELAPSED=$(( ELAPSED + 1 ))
+        done
+        info "PIA VPN connected ($(piactl get vpnip 2>/dev/null || echo 'IP unknown'))"
+    fi
+
+    # Verify kill switch
+    KS_STATE=$(piactl get killswitch 2>/dev/null || echo "unknown")
+    if [[ "${KS_STATE}" != "always" ]]; then
+        info "Setting kill switch to 'always'..."
+        piactl set killswitch always 2>/dev/null || \
+            info "⚠ Could not set kill switch — verify manually in PIA settings"
+    fi
+    info "Kill switch: $(piactl get killswitch 2>/dev/null || echo 'unknown')"
+fi
+
+# ── 2. Generate extension rules from allowlist ───────────────────────────────
+
+if [[ ! -f "${ALLOWLIST_FILE}" ]]; then
+    die "Allowlist not found: ${ALLOWLIST_FILE}"
+fi
+
+if [[ ! -f "${EXTENSION_DIR}/manifest.json" ]]; then
+    die "Extension not found: ${EXTENSION_DIR}/manifest.json"
+fi
+
+# Parse allowlist: strip comments and blank lines
+DOMAINS=()
+while IFS= read -r line; do
+    line="${line%%#*}"        # strip inline comments
+    line="${line// /}"        # strip whitespace
+    [[ -z "${line}" ]] && continue
+    DOMAINS+=("${line}")
+done < "${ALLOWLIST_FILE}"
+
+if (( ${#DOMAINS[@]} == 0 )); then
+    die "Allowlist is empty — refusing to launch with no permitted domains"
+fi
+
+info "Building extension rules (${#DOMAINS[@]} domains)..."
+
+# Generate rules.json for declarativeNetRequest:
+#   Rule 1 (priority 1): Block all main_frame and sub_frame navigations
+#   Rules 2+N (priority 2): Allow navigation to allowlisted domains + subdomains
+#
+# Only main_frame and sub_frame are restricted. Sub-resources (scripts, images,
+# CSS, XHR) are permitted so that allowed pages can load assets from CDNs.
+
+python3 - "${RULES_FILE}" "${DOMAINS[@]}" << 'PYGEN'
+import json, sys
+
+rules_path = sys.argv[1]
+domains = sys.argv[2:]
+
+rules = [
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {"type": "block"},
+        "condition": {
+            "resourceTypes": ["main_frame", "sub_frame"]
+        }
+    }
+]
+
+for i, domain in enumerate(domains):
+    rules.append({
+        "id": i + 2,
+        "priority": 2,
+        "action": {"type": "allow"},
+        "condition": {
+            "requestDomains": [domain],
+            "resourceTypes": ["main_frame", "sub_frame"]
+        }
+    })
+
+with open(rules_path, "w") as f:
+    json.dump(rules, f, indent=2)
+
+print(f"    Generated {len(rules)} rules ({len(domains)} allowed domains)")
+PYGEN
+
+# ── 3. Launch Brave ──────────────────────────────────────────────────────────
+
+info "Launching Brave (Private instance)..."
+
+# --user-data-dir  → separate Brave process, independent of your normal Brave
+# --load-extension → loads allowlist extension (works because own process)
+# --no-first-run   → skip welcome flow on first launch
+"${BRAVE}" \
+    --user-data-dir="${USER_DATA_DIR}" \
+    --load-extension="${EXTENSION_DIR}" \
+    --no-first-run \
+    --no-default-browser-check \
+    "$@" &>/dev/null &
+
+info "Brave launched (PID $!)"
+SCRIPT_EOF
+
+chmod +x "${HELPER}"
+echo "    ✓ brave-private helper installed to ${HELPER}"
+
+# ── 5. Print summary and manual steps ────────────────────────────────────────
+
+cat << 'MANUAL_STEPS'
+
+╔══════════════════════════════════════════════════════════════════════╗
+║              Brave Browser — Configuration Summary                  ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  ✓ AUTOMATED                                                         ║
+║    • Brave installed via Homebrew                                    ║
+║    • Isolated private instance with its own user-data directory:     ║
+║        ~/.config/brave-private/user-data/                            ║
+║    • Runs as a separate Brave process (side-by-side with Default)    ║
+║    • Hardened settings:                                              ║
+║       – Strict fingerprinting protection                             ║
+║       – Third-party cookies blocked                                  ║
+║       – Aggressive tracker & ad blocking                             ║
+║       – WebRTC non-proxied UDP disabled (IP leak prevention)         ║
+║       – DNS over HTTPS via Cloudflare (secure mode)                  ║
+║       – HTTPS-only mode enabled                                      ║
+║       – Autofill, saved passwords, translate disabled                ║
+║       – Privacy Sandbox (Topics, FLEDGE, Ad Measurement) off         ║
+║    • 1Password: install once from Chrome Web Store (persists in        ║
+║       user-data). Web Store domains are in the allowlist.             ║
+║    • PIA desktop VPN kill switch set to "always"                     ║
+║    • Domain allowlist extension:                                     ║
+║        ~/.config/brave-private/extension/                            ║
+║    • brave-private CLI installed to ~/.local/bin                     ║
+║                                                                      ║
+║  How it works:                                                       ║
+║    brave-private connects PIA VPN, generates declarativeNetRequest   ║
+║    rules from your allowlist, and launches Brave with its own        ║
+║    --user-data-dir and --load-extension. This is a fully separate    ║
+║    Brave process — your normal Brave is completely unaffected and    ║
+║    can run at the same time.                                         ║
+║                                                                      ║
+║  ⚙ MANUAL STEPS REQUIRED                                            ║
+║                                                                      ║
+║  ┌─ First-time PIA setup ─────────────────────────────────────────┐  ║
+║  │                                                                 │  ║
+║  │  1. Open PIA desktop app and log in with your credentials       │  ║
+║  │  2. Verify kill switch is enabled:                              │  ║
+║  │       piactl get killswitch  →  should print "always"           │  ║
+║  │  3. Choose your preferred server region in the PIA app          │  ║
+║  │                                                                 │  ║
+║  └─────────────────────────────────────────────────────────────────┘  ║
+║                                                                      ║
+║  ┌─ First-time 1Password install ──────────────────────────────────┐  ║
+║  │                                                                 │  ║
+║  │  1. Run: brave-private                                          │  ║
+║  │  2. Navigate to:                                                │  ║
+║  │     https://chromewebstore.google.com/detail/aeblfdkhhhdcdjpi   │  ║
+║  │     fhhbdiojplfjncoa                                            │  ║
+║  │  3. Click "Add to Brave" — installs into this instance only     │  ║
+║  │  4. 1Password persists — you only need to do this once          │  ║
+║  │                                                                 │  ║
+║  │  Optional: after installing, remove the Chrome Web Store        │  ║
+║  │  domains from ~/.config/brave-private/allowlist.conf            │  ║
+║  │                                                                 │  ║
+║  └─────────────────────────────────────────────────────────────────┘  ║
+║                                                                      ║
+║  ┌─ Verify setup ─────────────────────────────────────────────────┐  ║
+║  │                                                                 │  ║
+║  │  1. Run: brave-private                                          │  ║
+║  │  2. Visit brave://extensions — confirm allowlist extension and  │  ║
+║  │     1Password are both loaded and enabled                       │  ║
+║  │  3. Visit https://ipleak.net — verify VPN IP shown              │  ║
+║  │  4. Visit brave://settings/security — confirm secure DNS on     │  ║
+║  │  5. Try visiting google.com — should be blocked                 │  ║
+║  │  6. Visit https://mail.proton.me — should work                  │  ║
+║  │  7. Open your normal Brave — no restrictions, runs in parallel  │  ║
+║  │                                                                 │  ║
+║  └─────────────────────────────────────────────────────────────────┘  ║
+║                                                                      ║
+║  ┌─ Usage ────────────────────────────────────────────────────────┐  ║
+║  │                                                                 │  ║
+║  │  brave-private           # connect VPN + launch with allowlist  │  ║
+║  │  brave-private --no-vpn  # launch with allowlist only           │  ║
+║  │                                                                 │  ║
+║  │  Edit the domain allowlist:                                     │  ║
+║  │    vim ~/.config/brave-private/allowlist.conf                   │  ║
+║  │                                                                 │  ║
+║  │  Changes take effect next time you run brave-private.           │  ║
+║  │                                                                 │  ║
+║  └─────────────────────────────────────────────────────────────────┘  ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+MANUAL_STEPS
+
+echo "==> Brave Browser configuration complete"
