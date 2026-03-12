@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773026181478,
+  "lastUpdate": 1773288032205,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -122,6 +122,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.12043051178,
             "range": "0.031259242090304756",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "distinct": true,
+          "id": "1c303e10a5dfb2e2a54da63139d020b8b14df1d9",
+          "message": "add hardened Brave profile with PIA VPN and domain allowlist",
+          "timestamp": "2026-03-11T22:56:58-05:00",
+          "tree_id": "709eb26aebec7244e0cab2f447758088aa26582a",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/1c303e10a5dfb2e2a54da63139d020b8b14df1d9"
+        },
+        "date": 1773288030724,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.07026727758,
+            "range": "0.006126697494300518",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
