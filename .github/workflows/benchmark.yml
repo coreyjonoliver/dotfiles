@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: write
 
@@ -60,7 +63,10 @@ jobs:
 
       - name: Install hyperfine
         shell: pwsh
-        run: winget install sharkdp.hyperfine --accept-package-agreements --accept-source-agreements
+        run: |
+          choco install hyperfine -y
+          # Refresh PATH so hyperfine is available
+          $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH", "User")
 
       - name: Run benchmark
         shell: pwsh
