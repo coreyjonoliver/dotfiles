@@ -74,7 +74,15 @@ dotfiles/
 | **Terminals** | `dot_config/ghostty/config` | Ghostty with MesloLGS Nerd Font and Tokyo Night theme |
 | **Versions** | `dot_config/mise/config.toml` | mise-managed Python, Node.js, Java, Go, and Terraform |
 | **SSH** | `private_dot_ssh/config.tmpl`, `dot_config/private_1Password/` | 1Password SSH agent and key management |
-| **Brave** | `.chezmoiscripts/darwin/configure-brave`, `.local/bin/brave-private` | Isolated Private instance with PIA desktop VPN (auto kill switch), domain allowlist extension (Proton-only by default), hardened shields, DNS-over-HTTPS, WebRTC lockdown, 1Password |
+| **Brave** | `.chezmoiscripts/darwin/configure-brave`, `dot_config/brave-private/` | Hardened "Private" profile with PIA desktop VPN (kill switch), custom allowlist extension (Proton-only by default), strict shields, DNS-over-HTTPS, WebRTC lockdown, 1Password |
+
+### Windows Roles
+
+Windows machines support role-based configuration. Roles are selected interactively during `chezmoi init`.
+
+| Role | Component | Description |
+|------|-----------|-------------|
+| **ai** | Ollama | Privacy-hardened local LLM: firewall-blocked outbound, localhost-only binding, `ollama-pull` helper for gated model downloads |
 
 ## Daily Usage
 
@@ -114,13 +122,15 @@ Then run `task apply` to install.
 ## Testing
 
 ```bash
-task lint       # Lint shell scripts with ShellCheck
-task test       # Run Bats test suite
-task benchmark  # Measure zsh startup time (requires hyperfine)
-task ci         # Run full CI pipeline locally
+task lint-shell       # Lint shell scripts with ShellCheck
+task lint-powershell  # Lint PowerShell scripts with PSScriptAnalyzer (Windows)
+task test             # Run Bats test suite
+task test-windows     # Run Pester test suite (Windows)
+task benchmark        # Measure zsh startup time (requires hyperfine)
+task ci               # Run full CI pipeline locally
 ```
 
-CI runs automatically on push/PR via GitHub Actions. Shell startup benchmarks run on merges to `main` and track performance over time.
+CI runs automatically on push/PR via GitHub Actions on both macOS and Windows. Shell startup benchmarks run on merges to `main` and track performance over time for both platforms.
 
 ## Acknowledgements
 

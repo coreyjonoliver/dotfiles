@@ -8,8 +8,8 @@ permissions:
   contents: write
 
 jobs:
-  benchmark:
-    name: Shell Startup Benchmark
+  benchmark-macos:
+    name: Shell Startup Benchmark (macOS)
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -50,4 +50,30 @@ jobs:
           alert-threshold: "150%"
           comment-on-alert: true
           fail-on-alert: false
-          benchmark-data-dir-path: benchmarks
+          benchmark-data-dir-path: benchmarks/macos
+
+  benchmark-windows:
+    name: Shell Startup Benchmark (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install hyperfine
+        shell: pwsh
+        run: winget install sharkdp.hyperfine --accept-package-agreements --accept-source-agreements
+
+      - name: Run benchmark
+        shell: pwsh
+        run: .\scripts\run_benchmark.ps1
+
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: customSmallerIsBetter
+          output-file-path: benchmark-results.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          alert-threshold: "150%"
+          comment-on-alert: true
+          fail-on-alert: false
+          benchmark-data-dir-path: benchmarks/windows

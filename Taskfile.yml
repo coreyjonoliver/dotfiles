@@ -61,15 +61,27 @@ tasks:
     cmds:
       - chezmoi update --source {{.CHEZMOI_SOURCE}}
 
-  lint:
+  lint-shell:
     desc: Lint shell scripts with ShellCheck
     cmds:
       - bash scripts/lint.sh
+
+  lint-powershell:
+    desc: Lint PowerShell scripts with PSScriptAnalyzer
+    platforms: [windows]
+    cmds:
+      - pwsh -File scripts/lint.ps1
 
   test:
     desc: Run Bats test suite
     cmds:
       - bats tests/
+
+  test-windows:
+    desc: Run Pester tests for Windows
+    platforms: [windows]
+    cmds:
+      - pwsh -Command "Invoke-Pester -Path tests/windows -Output Detailed"
 
   benchmark:
     desc: Benchmark zsh startup time
@@ -80,7 +92,7 @@ tasks:
   ci:
     desc: Run full CI pipeline locally (lint + test)
     cmds:
-      - task: lint
+      - task: lint-shell
       - task: test
 
   clean:
