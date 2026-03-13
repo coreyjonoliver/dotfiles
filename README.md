@@ -122,13 +122,15 @@ Then run `task apply` to install.
 ## Testing
 
 ```bash
-task lint       # Lint shell scripts with ShellCheck
-task test       # Run Bats test suite
-task benchmark  # Measure zsh startup time (requires hyperfine)
-task ci         # Run full CI pipeline locally
+task lint-shell       # Lint shell scripts with ShellCheck
+task lint-powershell  # Lint PowerShell scripts with PSScriptAnalyzer (Windows)
+task test             # Run Bats test suite
+task test-windows     # Run Pester test suite (Windows)
+task benchmark        # Measure zsh startup time (requires hyperfine)
+task ci               # Run full CI pipeline locally
 ```
 
-CI runs automatically on push/PR via GitHub Actions. Shell startup benchmarks run on merges to `main` and track performance over time.
+CI runs automatically on push/PR via GitHub Actions on both macOS and Windows. Shell startup benchmarks run on merges to `main` and track performance over time for both platforms.
 
 ## Acknowledgements
 
