@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773371162707,
+  "lastUpdate": 1773371225354,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -184,6 +184,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.07190270326,
             "range": "0.009569404261636038",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "distinct": true,
+          "id": "5522179b6bf2e309d479966a61a1bccd6c4f9239",
+          "message": "Add sops",
+          "timestamp": "2026-03-12T22:06:08-05:00",
+          "tree_id": "8097f5137c24e28be933d66df50efee93c12af41",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/5522179b6bf2e309d479966a61a1bccd6c4f9239"
+        },
+        "date": 1773371223762,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.07924039088000001,
+            "range": "0.013259060190529652",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
