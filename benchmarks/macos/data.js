@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773442019922,
+  "lastUpdate": 1773445448298,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -29,6 +29,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.09477502008000002,
             "range": "0.07973037179921467",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "efc5d3fa5c077d6c4f12eefc9a3b6287703bd42b",
+          "message": "Merge pull request #6 from coreyjonoliver/fix-windows-tests\n\nFix windows test errors",
+          "timestamp": "2026-03-13T18:43:33-05:00",
+          "tree_id": "650b22cd9ae7291ed15d4d2a1079a325f1a6f994",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/efc5d3fa5c077d6c4f12eefc9a3b6287703bd42b"
+        },
+        "date": 1773445447039,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.14014693154000002,
+            "range": "0.02111903859294284",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
