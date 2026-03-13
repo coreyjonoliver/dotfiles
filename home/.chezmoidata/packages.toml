@@ -18,6 +18,7 @@
       "neovim",
       "rustup",
       "siderolabs/tap/sidero-tools",
+      "sops",
       "starship",
       "zoxide",
       "fluxcd/tap/flux",
