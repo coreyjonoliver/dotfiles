@@ -7,10 +7,12 @@
 
     formulae = [
       "chezmoi",
+      "direnv",
       "eza",
       "gh",
       "git",
       "go-task",
+      "kubectl",
       "mas",          # add mas CLI to install App Store apps
       "mise",
       "neovim",
