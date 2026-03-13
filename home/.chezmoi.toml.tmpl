@@ -5,6 +5,13 @@
     personal = true
     use_1password = true
 
+{{ if eq .chezmoi.os "windows" -}}
+[data.roles]
+    ai = {{ promptBoolOnce . "roles.ai" "Enable AI role (Ollama, local LLMs)" | not | not }}
+    developer = {{ promptBoolOnce . "roles.developer" "Enable Developer role" | not | not }}
+    gaming = {{ promptBoolOnce . "roles.gaming" "Enable Gaming role" | not | not }}
+{{ end -}}
+
 [onepassword]
     command = "op"
     prompt = true

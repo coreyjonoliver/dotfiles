@@ -1,0 +1,254 @@
+{{ if and (eq .chezmoi.os "windows") (hasKey .roles "ai") .roles.ai -}}
+#Requires -Version 5.1
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+Write-Host "==> Configuring Ollama (AI role)..."
+
+$OllamaBin    = Join-Path $env:LOCALAPPDATA "Programs\Ollama\ollama.exe"
+$HelperDir    = Join-Path $env:USERPROFILE ".local\bin"
+$HelperScript = Join-Path $HelperDir "ollama-pull.ps1"
+
+# ── 0. Install Ollama via winget ─────────────────────────────────────────────
+if (-not (Test-Path $OllamaBin)) {
+    if (Get-Command winget -ErrorAction SilentlyContinue) {
+        Write-Host "    → Installing Ollama via winget..."
+        winget install -e --id Ollama.Ollama --accept-package-agreements --accept-source-agreements
+    } else {
+        Write-Host "    ⚠  winget not found — install Ollama manually from https://ollama.com"
+    }
+} else {
+    Write-Host "    ✓ Ollama already installed"
+}
+
+# ── 1. Set privacy-focused environment variables ─────────────────────────────
+#    These are set as user-level environment variables so they persist across
+#    reboots and apply whenever Ollama runs.
+Write-Host "    → Setting Ollama environment variables..."
+
+$EnvVars = @{
+    # Bind only to localhost — never expose to the network
+    OLLAMA_HOST        = "127.0.0.1:11434"
+
+    # Disable command history
+    OLLAMA_NOHISTORY   = "true"
+
+    # Restrict CORS to localhost only
+    OLLAMA_ORIGINS     = "http://localhost,https://localhost,http://127.0.0.1,https://127.0.0.1"
+
+    # Keep models loaded for 5 minutes (default), not indefinitely
+    OLLAMA_KEEP_ALIVE  = "5m"
+}
+
+foreach ($key in $EnvVars.Keys) {
+    $current = [Environment]::GetEnvironmentVariable($key, "User")
+    if ($current -ne $EnvVars[$key]) {
+        [Environment]::SetEnvironmentVariable($key, $EnvVars[$key], "User")
+        Write-Host "    ✓ $key = $($EnvVars[$key])"
+    } else {
+        Write-Host "    ✓ $key already set"
+    }
+}
+
+# ── 2. Create Windows Firewall rule blocking Ollama outbound ─────────────────
+#    This prevents Ollama from reaching the internet (model downloads, update
+#    checks, telemetry if any). Use the ollama-pull helper to temporarily
+#    allow access when pulling models.
+Write-Host "    → Configuring Windows Firewall..."
+
+$FwRuleName = "Block Ollama Outbound"
+
+# Resolve the actual exe path (may not exist yet if winget install is pending)
+$OllamaExePath = Join-Path $env:LOCALAPPDATA "Programs\Ollama\ollama.exe"
+
+# Check if we can manage firewall (requires admin)
+$IsAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
+    [Security.Principal.WindowsBuiltInRole]::Administrator
+)
+
+if ($IsAdmin) {
+    # Remove stale rule if exists, then recreate
+    $existing = Get-NetFirewallRule -DisplayName $FwRuleName -ErrorAction SilentlyContinue
+    if ($existing) {
+        Remove-NetFirewallRule -DisplayName $FwRuleName
+    }
+
+    if (Test-Path $OllamaExePath) {
+        New-NetFirewallRule `
+            -DisplayName $FwRuleName `
+            -Direction Outbound `
+            -Action Block `
+            -Program $OllamaExePath `
+            -Profile Any `
+            -Description "Blocks Ollama from accessing the internet. Use ollama-pull to temporarily allow model downloads." | Out-Null
+
+        Write-Host "    ✓ Firewall rule created: '$FwRuleName'"
+    } else {
+        Write-Host "    ⚠  Ollama executable not found at $OllamaExePath"
+        Write-Host "       Firewall rule will be created on next chezmoi apply after Ollama is installed"
+    }
+} else {
+    Write-Host "    ⚠  Not running as Administrator — firewall rule skipped"
+    Write-Host "       Run the following in an elevated PowerShell to create the rule:"
+    Write-Host "       New-NetFirewallRule -DisplayName '$FwRuleName' -Direction Outbound -Action Block -Program '$OllamaExePath' -Profile Any"
+}
+
+# ── 3. Create the ollama-pull helper script ──────────────────────────────────
+Write-Host "    → Installing ollama-pull helper..."
+
+if (-not (Test-Path $HelperDir)) {
+    New-Item -ItemType Directory -Path $HelperDir -Force | Out-Null
+}
+
+@'
+#Requires -RunAsAdministrator
+<#
+.SYNOPSIS
+    Pull an Ollama model by temporarily disabling the outbound firewall block.
+
+.DESCRIPTION
+    ollama-pull temporarily disables the "Block Ollama Outbound" firewall rule,
+    runs 'ollama pull' for the specified model, then re-enables the rule.
+    This ensures Ollama only has internet access for the duration of the download.
+
+    Requires Administrator privileges to modify firewall rules.
+
+.PARAMETER Model
+    The model name to pull (e.g., "llama3.2", "mistral", "codellama:13b").
+
+.EXAMPLE
+    .\ollama-pull.ps1 llama3.2
+    .\ollama-pull.ps1 mistral
+    .\ollama-pull.ps1 codellama:13b
+#>
+
+param(
+    [Parameter(Mandatory = $true, Position = 0)]
+    [string]$Model
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+$FwRuleName = "Block Ollama Outbound"
+
+# Verify the firewall rule exists
+$rule = Get-NetFirewallRule -DisplayName $FwRuleName -ErrorAction SilentlyContinue
+if (-not $rule) {
+    Write-Warning "Firewall rule '$FwRuleName' not found — Ollama may already have internet access."
+    Write-Host "Proceeding with pull..."
+    & ollama pull $Model
+    exit $LASTEXITCODE
+}
+
+try {
+    # Temporarily disable the firewall block
+    Write-Host "[ollama-pull] Temporarily allowing Ollama internet access..."
+    Disable-NetFirewallRule -DisplayName $FwRuleName
+
+    # Pull the model
+    Write-Host "[ollama-pull] Pulling model: $Model"
+    & ollama pull $Model
+    $pullExitCode = $LASTEXITCODE
+}
+finally {
+    # Always re-enable the firewall block, even if the pull fails
+    Write-Host "[ollama-pull] Re-enabling firewall block..."
+    Enable-NetFirewallRule -DisplayName $FwRuleName
+    Write-Host "[ollama-pull] ✓ Ollama internet access blocked"
+}
+
+if ($pullExitCode -eq 0) {
+    Write-Host "[ollama-pull] ✓ Model '$Model' pulled successfully"
+} else {
+    Write-Host "[ollama-pull] ✖ Pull failed with exit code $pullExitCode"
+}
+
+exit $pullExitCode
+'@ | Set-Content -Path $HelperScript -Encoding UTF8
+
+Write-Host "    ✓ ollama-pull helper installed to $HelperScript"
+
+# ── 4. Ensure ~/.local/bin is on user PATH ───────────────────────────────────
+$UserPath = [Environment]::GetEnvironmentVariable("PATH", "User")
+if ($UserPath -notlike "*$HelperDir*") {
+    [Environment]::SetEnvironmentVariable("PATH", "$HelperDir;$UserPath", "User")
+    Write-Host "    ✓ Added $HelperDir to user PATH"
+} else {
+    Write-Host "    ✓ $HelperDir already on PATH"
+}
+
+# ── 5. Stop Ollama from running at startup (prevent auto-update checks) ──────
+#    The firewall rule blocks updates anyway, but removing the startup entry
+#    prevents Ollama from running in the background when not needed.
+$StartupPath = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs\Startup\Ollama.lnk"
+if (Test-Path $StartupPath) {
+    Remove-Item $StartupPath -Force
+    Write-Host "    ✓ Removed Ollama from startup (prevents background auto-update checks)"
+} else {
+    Write-Host "    ✓ Ollama not in startup"
+}
+
+# ── Summary ──────────────────────────────────────────────────────────────────
+
+Write-Host @"
+
+╔══════════════════════════════════════════════════════════════════════╗
+║              Ollama — Configuration Summary                          ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  ✓ AUTOMATED                                                         ║
+║    • Ollama installed via winget                                     ║
+║    • Privacy-hardened environment variables:                         ║
+║       – OLLAMA_HOST bound to 127.0.0.1 (localhost only)              ║
+║       – OLLAMA_NOHISTORY disables command history                    ║
+║       – OLLAMA_ORIGINS restricted to localhost                       ║
+║    • Windows Firewall blocks all Ollama outbound traffic             ║
+║    • ollama-pull helper installed to ~/.local/bin                    ║
+║    • Removed from Windows startup (no background auto-updates)       ║
+║                                                                      ║
+║  How it works:                                                       ║
+║    Ollama runs fully offline — the firewall rule blocks all          ║
+║    outbound internet access. When you need to download a model,      ║
+║    use the ollama-pull helper which temporarily lifts the block:      ║
+║                                                                      ║
+║      ollama-pull llama3.2                                            ║
+║      ollama-pull mistral                                             ║
+║      ollama-pull codellama:13b                                       ║
+║                                                                      ║
+║    After the download completes, the firewall block is               ║
+║    automatically re-enabled. Requires an elevated (Admin)            ║
+║    PowerShell session.                                               ║
+║                                                                      ║
+║  ⚙ MANUAL STEPS                                                     ║
+║                                                                      ║
+║  ┌─ If firewall rule was not created (non-admin) ─────────────────┐  ║
+║  │                                                                 │  ║
+║  │  Run in an elevated PowerShell:                                 │  ║
+║  │  New-NetFirewallRule -DisplayName "Block Ollama Outbound" `     │  ║
+║  │    -Direction Outbound -Action Block `                          │  ║
+║  │    -Program "$env:LOCALAPPDATA\Programs\Ollama\ollama.exe" `    │  ║
+║  │    -Profile Any                                                 │  ║
+║  │                                                                 │  ║
+║  └─────────────────────────────────────────────────────────────────┘  ║
+║                                                                      ║
+║  ┌─ Verify setup ─────────────────────────────────────────────────┐  ║
+║  │                                                                 │  ║
+║  │  1. Open PowerShell (Admin) and run:                            │  ║
+║  │       ollama-pull llama3.2                                      │  ║
+║  │  2. After pull completes, verify firewall is re-enabled:        │  ║
+║  │       Get-NetFirewallRule -DisplayName "Block Ollama Outbound"  │  ║
+║  │  3. Run a model:                                                │  ║
+║  │       ollama run llama3.2                                       │  ║
+║  │  4. Verify no outbound connections:                             │  ║
+║  │       netstat -an | findstr 11434                               │  ║
+║  │       (should show only 127.0.0.1:11434 LISTENING)              │  ║
+║  │                                                                 │  ║
+║  └─────────────────────────────────────────────────────────────────┘  ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+"@
+
+Write-Host "==> Ollama configuration complete"
+{{ end -}}

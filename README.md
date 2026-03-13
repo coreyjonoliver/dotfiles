@@ -74,7 +74,15 @@ dotfiles/
 | **Terminals** | `dot_config/ghostty/config` | Ghostty with MesloLGS Nerd Font and Tokyo Night theme |
 | **Versions** | `dot_config/mise/config.toml` | mise-managed Python, Node.js, Java, Go, and Terraform |
 | **SSH** | `private_dot_ssh/config.tmpl`, `dot_config/private_1Password/` | 1Password SSH agent and key management |
-| **Brave** | `.chezmoiscripts/darwin/configure-brave`, `.local/bin/brave-private` | Isolated Private instance with PIA desktop VPN (auto kill switch), domain allowlist extension (Proton-only by default), hardened shields, DNS-over-HTTPS, WebRTC lockdown, 1Password |
+| **Brave** | `.chezmoiscripts/darwin/configure-brave`, `dot_config/brave-private/` | Hardened "Private" profile with PIA desktop VPN (kill switch), custom allowlist extension (Proton-only by default), strict shields, DNS-over-HTTPS, WebRTC lockdown, 1Password |
+
+### Windows Roles
+
+Windows machines support role-based configuration. Roles are selected interactively during `chezmoi init`.
+
+| Role | Component | Description |
+|------|-----------|-------------|
+| **ai** | Ollama | Privacy-hardened local LLM: firewall-blocked outbound, localhost-only binding, `ollama-pull` helper for gated model downloads |
 
 ## Daily Usage
 
