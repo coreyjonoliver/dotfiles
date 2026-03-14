@@ -1,11 +1,32 @@
-# dotfiles
+<p align="center">
+  <img src=".github/header.svg" alt="dotfiles" width="700">
+</p>
 
-[![CI](https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml)
-[![Benchmark](https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml/badge.svg)](https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml)
+<p align="center">
+  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/snippet-install.yml"><img src="https://github.com/coreyjonoliver/dotfiles/actions/workflows/snippet-install.yml/badge.svg" alt="Snippet install"></a>
+</p>
 
-Personal dotfiles managed with [chezmoi](https://chezmoi.io). Organized by functional components with automated CI/CD, shell startup benchmarking, and cross-platform support.
+<p align="center">
+  <strong>macOS</strong>&nbsp;
+  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/ci.yml?label=CI&logo=apple&logoColor=white" alt="macOS CI"></a>
+  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml"><img src="https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/benchmark.yml?label=Benchmark&logo=apple&logoColor=white" alt="macOS Benchmark"></a>
+  &nbsp;&nbsp;
+  <strong>Windows</strong>&nbsp;
+  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/ci.yml?label=CI&logo=windows&logoColor=white" alt="Windows CI"></a>
+  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml"><img src="https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/benchmark.yml?label=Benchmark&logo=windows&logoColor=white" alt="Windows Benchmark"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/twpayne/chezmoi"><img src="https://img.shields.io/github/v/tag/twpayne/chezmoi?color=7aa2f7&display_name=release&label=chezmoi&logo=gnometerminal&logoColor=7aa2f7&sort=semver" alt="chezmoi"></a>
+  <a href="https://github.com/starship/starship"><img src="https://img.shields.io/github/v/tag/starship/starship?color=DD0B78&display_name=release&label=starship&logo=starship&logoColor=DD0B78&sort=semver" alt="starship"></a>
+  <a href="https://github.com/jdx/mise"><img src="https://img.shields.io/github/v/tag/jdx/mise?color=00acc1&display_name=release&label=mise&logo=gnometerminal&logoColor=00acc1&sort=semver" alt="mise"></a>
+</p>
+
+Personal dotfiles managed with [chezmoi](https://chezmoi.io). Cross-platform (macOS + Windows) with automated CI/CD, shell startup benchmarking, and role-based configuration.
 
 ## Quick Start
+
+### 🍎 macOS
 
 **One-liner (fresh machine):**
 
@@ -21,7 +42,23 @@ cd ~/Projects/dotfiles
 ./install.sh
 ```
 
-Configuration values (name, email, 1Password preference) are defined in `home/.chezmoi.toml.tmpl`. Edit that file before running `chezmoi init` to customize for your setup.
+### 🪟 Windows
+
+**Snippet install (PowerShell):**
+
+```powershell
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply coreyjonoliver
+```
+
+**Or with chezmoi already installed:**
+
+```powershell
+chezmoi init --apply coreyjonoliver
+```
+
+On Windows, `chezmoi init` will prompt for roles (AI, Developer, Gaming).
+
+Configuration values (name, email, 1Password preference, Windows roles) are defined in `home/.chezmoi.toml.tmpl`. Edit that file before running `chezmoi init` to customize for your setup.
 
 ## Prerequisites
 
@@ -149,6 +186,21 @@ task ci               # Run full CI pipeline locally
 ```
 
 CI runs automatically on push/PR via GitHub Actions on both macOS and Windows. Shell startup benchmarks run on merges to `main` and track performance over time for both platforms.
+
+## 📊 Startup Benchmarks
+
+Shell startup speed is continuously measured using [hyperfine](https://github.com/sharkdp/hyperfine) and tracked with [benchmark-action/github-action-benchmark](https://github.com/benchmark-action/github-action-benchmark).
+
+| Platform | Metric | Dashboard |
+|----------|--------|-----------|
+| macOS | `zsh -i -c exit` | [benchmarks/macos](https://coreyjonoliver.github.io/dotfiles/benchmarks/macos/) |
+| Windows | `pwsh -NoProfile -NonInteractive -Command exit` | [benchmarks/windows](https://coreyjonoliver.github.io/dotfiles/benchmarks/windows/) |
+
+Benchmarks run on every merge to `main`. Performance regressions over 150% trigger alerts.
+
+## 🔄 Snippet Install
+
+The [Snippet install](https://github.com/coreyjonoliver/dotfiles/actions/workflows/snippet-install.yml) workflow runs weekly (every Friday) and on manual trigger. It simulates a fresh machine by running `chezmoi init --apply` from the remote repo on both macOS and Windows runners, verifying that the dotfiles can be bootstrapped from scratch without errors.
 
 ## Acknowledgements
 
