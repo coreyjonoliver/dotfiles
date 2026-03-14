@@ -19,6 +19,10 @@ setup() {
     [[ -f "${ROOT_DIR}/home/.chezmoiscripts/darwin/run_onchange_after_configure-brave.sh.tmpl" ]]
 }
 
+@test "touchid configuration script exists" {
+    [[ -f "${ROOT_DIR}/home/.chezmoiscripts/darwin/run_onchange_after_configure-touchid.sh.tmpl" ]]
+}
+
 @test "ollama configuration script exists" {
     [[ -f "${ROOT_DIR}/home/.chezmoiscripts/windows/run_onchange_after_configure-ollama.ps1.tmpl" ]]
 }

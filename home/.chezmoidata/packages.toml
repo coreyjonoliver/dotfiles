@@ -16,6 +16,7 @@
       "mas",          # add mas CLI to install App Store apps
       "mise",
       "neovim",
+      "pam-reattach",  # Touch ID for sudo in tmux/screen
       "rustup",
       "siderolabs/tap/sidero-tools",
       "sops",
