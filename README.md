@@ -4,22 +4,23 @@
 
 <p align="center">
   <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/snippet-install.yml"><img src="https://github.com/coreyjonoliver/dotfiles/actions/workflows/snippet-install.yml/badge.svg" alt="Snippet install"></a>
-</p>
-
-<p align="center">
-  <strong>macOS</strong>&nbsp;
-  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/ci.yml?label=CI&logo=apple&logoColor=white" alt="macOS CI"></a>
-  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml"><img src="https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/benchmark.yml?label=Benchmark&logo=apple&logoColor=white" alt="macOS Benchmark"></a>
-  &nbsp;&nbsp;
-  <strong>Windows</strong>&nbsp;
-  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/ci.yml?label=CI&logo=windows&logoColor=white" alt="Windows CI"></a>
-  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml"><img src="https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/benchmark.yml?label=Benchmark&logo=windows&logoColor=white" alt="Windows Benchmark"></a>
+  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml"><img src="https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml"><img src="https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml/badge.svg" alt="Benchmark"></a>
+  <a href="https://github.com/coreyjonoliver/dotfiles/blob/main/LICENSE"><img src="https://img.shields.io/github/license/coreyjonoliver/dotfiles?color=565f89" alt="License"></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/twpayne/chezmoi"><img src="https://img.shields.io/github/v/tag/twpayne/chezmoi?color=7aa2f7&display_name=release&label=chezmoi&logo=gnometerminal&logoColor=7aa2f7&sort=semver" alt="chezmoi"></a>
   <a href="https://github.com/starship/starship"><img src="https://img.shields.io/github/v/tag/starship/starship?color=DD0B78&display_name=release&label=starship&logo=starship&logoColor=DD0B78&sort=semver" alt="starship"></a>
   <a href="https://github.com/jdx/mise"><img src="https://img.shields.io/github/v/tag/jdx/mise?color=00acc1&display_name=release&label=mise&logo=gnometerminal&logoColor=00acc1&sort=semver" alt="mise"></a>
+  <a href="https://github.com/Neovim/neovim"><img src="https://img.shields.io/github/v/tag/neovim/neovim?color=57A143&display_name=release&label=neovim&logo=neovim&logoColor=57A143&sort=semver" alt="neovim"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/zsh-users/zsh"><img src="https://img.shields.io/github/v/tag/zsh-users/zsh?color=2885F1&display_name=release&label=zsh&logo=zsh&logoColor=2885F1&sort=semver" alt="zsh"></a>
+  <a href="https://github.com/PowerShell/PowerShell"><img src="https://img.shields.io/github/v/tag/PowerShell/PowerShell?color=2671BE&display_name=release&label=pwsh&logo=powershell&logoColor=2671BE&sort=semver" alt="PowerShell"></a>
+  <a href="https://github.com/ghostty-org/ghostty"><img src="https://img.shields.io/github/v/tag/ghostty-org/ghostty?color=c0caf5&display_name=release&label=ghostty&sort=semver" alt="ghostty"></a>
+  <a href="https://github.com/1Password/1password-cli"><img src="https://img.shields.io/github/v/tag/1Password/1password-cli?color=0572ec&display_name=release&label=1password-cli&logo=1password&logoColor=0572ec&sort=semver" alt="1password-cli"></a>
 </p>
 
 Personal dotfiles managed with [chezmoi](https://chezmoi.io). Cross-platform (macOS + Windows) with automated CI/CD, shell startup benchmarking, and role-based configuration.
@@ -114,7 +115,7 @@ dotfiles/
 | **SSH** | `private_dot_ssh/config.tmpl`, `dot_config/private_1Password/` | 1Password SSH agent (macOS socket / Windows named pipe) |
 | **Packages** | `.chezmoidata/packages.toml` | Declarative package lists for Homebrew (macOS) and winget (Windows) |
 
-### macOS
+### macOS &nbsp; [![macOS CI](https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/ci.yml?label=CI&logo=apple&logoColor=white)](https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml) [![macOS Benchmark](https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/benchmark.yml?label=Benchmark&logo=apple&logoColor=white)](https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml)
 
 | Component | Files | Description |
 |-----------|-------|-------------|
@@ -125,7 +126,7 @@ dotfiles/
 | **Versions** | `dot_config/mise/config.toml` | mise-managed Python, Node.js, Java, Go, and Terraform |
 | **Brave** | `.chezmoiscripts/darwin/configure-brave`, `dot_config/brave-private/` | Hardened "Private" profile with PIA desktop VPN (kill switch), custom allowlist extension (Proton-only by default), strict shields, DNS-over-HTTPS, WebRTC lockdown, 1Password |
 
-### Windows
+### Windows &nbsp; [![Windows CI](https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/ci.yml?label=CI&logo=windows&logoColor=white)](https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml) [![Windows Benchmark](https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/benchmark.yml?label=Benchmark&logo=windows&logoColor=white)](https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml)
 
 Windows machines support role-based configuration. Roles are selected interactively during `chezmoi init`.
 
