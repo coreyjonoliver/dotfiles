@@ -1,0 +1,69 @@
+{{ template "shell-header.tmpl" }}
+
+# packages.toml hash: {{ include ".chezmoidata/packages.toml" | sha256sum }}
+
+echo "==> Configuring Touch ID for sudo..."
+
+SUDO_LOCAL="/etc/pam.d/sudo_local"
+SUDO_LOCAL_TEMPLATE="/etc/pam.d/sudo_local.template"
+
+# Determine pam_reattach path (Homebrew on Apple Silicon vs Intel)
+if [[ -f /opt/homebrew/lib/pam/pam_reattach.so ]]; then
+    PAM_REATTACH="/opt/homebrew/lib/pam/pam_reattach.so"
+elif [[ -f /usr/local/lib/pam/pam_reattach.so ]]; then
+    PAM_REATTACH="/usr/local/lib/pam/pam_reattach.so"
+else
+    PAM_REATTACH=""
+fi
+
+# ── 1. Check if sudo_local exists (macOS Sonoma+) ────────────────────────────
+#    sudo_local is Apple's recommended way to customise sudo PAM config.
+#    Unlike /etc/pam.d/sudo, it persists across macOS updates.
+
+if [[ -f "${SUDO_LOCAL}" ]]; then
+    if grep -q "pam_tid.so" "${SUDO_LOCAL}"; then
+        echo "    ✓ Touch ID for sudo already configured"
+        exit 0
+    fi
+fi
+
+# ── 2. Create sudo_local from template or from scratch ────────────────────────
+
+echo "    → Enabling Touch ID for sudo (requires admin password)..."
+
+if [[ -f "${SUDO_LOCAL_TEMPLATE}" ]]; then
+    # Sonoma+ provides a template — copy and uncomment
+    sudo cp "${SUDO_LOCAL_TEMPLATE}" "${SUDO_LOCAL}"
+fi
+
+# Write the PAM config
+# - pam_reattach: re-attaches to the GUI session so Touch ID works in tmux/screen
+# - pam_tid: enables Touch ID authentication
+# - ignore_ssh: prevents Touch ID prompts over SSH (falls back to password)
+if [[ -n "${PAM_REATTACH}" ]]; then
+    sudo tee "${SUDO_LOCAL}" > /dev/null << EOF
+# Touch ID for sudo (managed by dotfiles)
+auth       optional       ${PAM_REATTACH}  ignore_ssh
+auth       sufficient     pam_tid.so
+EOF
+    echo "    ✓ Touch ID enabled with tmux/screen support (pam_reattach)"
+else
+    sudo tee "${SUDO_LOCAL}" > /dev/null << EOF
+# Touch ID for sudo (managed by dotfiles)
+auth       sufficient     pam_tid.so
+EOF
+    echo "    ✓ Touch ID enabled"
+    echo "    ⚠  pam_reattach not found — Touch ID won't work inside tmux/screen"
+    echo "       Install with: brew install pam-reattach"
+fi
+
+# ── 3. Verify ─────────────────────────────────────────────────────────────────
+
+echo ""
+echo "    Verify with: sudo -k && sudo echo 'Touch ID works!'"
+echo "    Touch ID will prompt on the next sudo command."
+echo ""
+echo "    Notes:"
+echo "      • Falls back to password if Touch ID is unavailable (lid closed, SSH, etc.)"
+echo "      • Persists across macOS updates (uses /etc/pam.d/sudo_local)"
+echo "      • Works in tmux/screen via pam_reattach"

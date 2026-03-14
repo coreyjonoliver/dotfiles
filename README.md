@@ -129,6 +129,7 @@ dotfiles/
 | **Terminal** | `dot_config/ghostty/config` | Ghostty with MesloLGS Nerd Font and Tokyo Night theme |
 | **Versions** | `dot_config/mise/config.toml` | mise-managed Python, Node.js, Java, Go, and Terraform |
 | **Brave** | `.chezmoiscripts/darwin/configure-brave`, `dot_config/brave-private/` | Hardened "Private" profile with PIA desktop VPN (kill switch), custom allowlist extension (Proton-only by default), strict shields, DNS-over-HTTPS, WebRTC lockdown, 1Password |
+| **Touch ID** | `.chezmoiscripts/darwin/configure-touchid` | Touch ID for `sudo` via `/etc/pam.d/sudo_local` (persists across macOS updates), tmux/screen support via `pam_reattach`, falls back to password over SSH |
 
 ### Windows &nbsp; [![Windows CI](https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/ci.yml?label=CI&logo=windows&logoColor=white)](https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml) [![Windows Benchmark](https://img.shields.io/github/actions/workflow/status/coreyjonoliver/dotfiles/benchmark.yml?label=Benchmark&logo=windows&logoColor=white)](https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml)
 
