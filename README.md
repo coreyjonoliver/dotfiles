@@ -6,7 +6,7 @@
   <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/snippet-install.yml"><img src="https://github.com/coreyjonoliver/dotfiles/actions/workflows/snippet-install.yml/badge.svg" alt="Snippet install"></a>
   <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml"><img src="https://github.com/coreyjonoliver/dotfiles/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml"><img src="https://github.com/coreyjonoliver/dotfiles/actions/workflows/benchmark.yml/badge.svg" alt="Benchmark"></a>
-  <a href="https://github.com/coreyjonoliver/dotfiles/blob/main/LICENSE"><img src="https://img.shields.io/github/license/coreyjonoliver/dotfiles?color=565f89" alt="License"></a>
+  <a href="https://github.com/coreyjonoliver/dotfiles/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-565f89" alt="License"></a>
 </p>
 
 <p align="center">
@@ -20,7 +20,7 @@
   <a href="https://github.com/zsh-users/zsh"><img src="https://img.shields.io/github/v/tag/zsh-users/zsh?color=2885F1&display_name=release&label=zsh&logo=zsh&logoColor=2885F1&sort=semver" alt="zsh"></a>
   <a href="https://github.com/PowerShell/PowerShell"><img src="https://img.shields.io/github/v/tag/PowerShell/PowerShell?color=2671BE&display_name=release&label=pwsh&logo=powershell&logoColor=2671BE&sort=semver" alt="PowerShell"></a>
   <a href="https://github.com/ghostty-org/ghostty"><img src="https://img.shields.io/github/v/tag/ghostty-org/ghostty?color=c0caf5&display_name=release&label=ghostty&sort=semver" alt="ghostty"></a>
-  <a href="https://github.com/1Password/1password-cli"><img src="https://img.shields.io/github/v/tag/1Password/1password-cli?color=0572ec&display_name=release&label=1password-cli&logo=1password&logoColor=0572ec&sort=semver" alt="1password-cli"></a>
+  <a href="https://1password.com/downloads/command-line"><img src="https://img.shields.io/badge/1password--cli-v2-0572ec?logo=1password&logoColor=0572ec" alt="1password-cli"></a>
 </p>
 
 Personal dotfiles managed with [chezmoi](https://chezmoi.io). Cross-platform (macOS + Windows) with automated CI/CD, shell startup benchmarking, and role-based configuration.
