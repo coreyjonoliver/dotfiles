@@ -1,0 +1,107 @@
+# These settings are synced to GitHub by https://github.com/apps/settings
+#
+# Install the Settings app on this repo, then changes to this file on the
+# default branch will be automatically applied to the repository.
+#
+# See: https://github.com/repository-settings/app
+
+# ── Repository settings ──────────────────────────────────────────────────────
+repository:
+  name: dotfiles
+  description: "Cross-platform dotfiles managed with chezmoi (macOS + Windows)"
+  homepage: https://coreyjonoliver.github.io/dotfiles/
+  topics: dotfiles, chezmoi, zsh, powershell, starship, neovim, tokyo-night, 1password
+
+  private: false
+  has_issues: true
+  has_projects: false
+  has_wiki: false
+  has_downloads: false
+
+  default_branch: main
+
+  # Merge settings
+  allow_squash_merge: true
+  allow_merge_commit: false
+  allow_rebase_merge: true
+  allow_auto_merge: true
+  delete_branch_on_merge: true
+
+  # Squash merge: use PR title + body (clean history)
+  squash_merge_commit_title: PR_TITLE
+  squash_merge_commit_message: PR_BODY
+
+  # Security
+  enable_vulnerability_alerts: true
+  enable_automated_security_fixes: true
+
+# ── Branch protection ────────────────────────────────────────────────────────
+# Only branches listed here are protected. Feature branches are unrestricted
+# (force push, delete, etc. are all allowed).
+branches:
+  - name: main
+    protection:
+      # Require PR reviews before merging
+      required_pull_request_reviews: null
+
+      # Require CI to pass before merging
+      required_status_checks:
+        strict: true
+        contexts:
+          - "Lint (Shell)"
+          - "Smoke Test (macOS)"
+          - "Lint (PowerShell)"
+          - "Smoke Test (Windows)"
+
+      # Enforce rules for admins too
+      enforce_admins: true
+
+      # Prevent force pushes and branch deletion
+      allow_force_pushes: false
+      allow_deletions: false
+
+      # No restrictions on who can push (personal repo)
+      restrictions: null
+
+  - name: gh-pages
+    protection:
+      required_pull_request_reviews: null
+      required_status_checks: null
+      enforce_admins: true
+      allow_force_pushes: false
+      allow_deletions: false
+      restrictions: null
+
+# ── Labels ───────────────────────────────────────────────────────────────────
+labels:
+  - name: bug
+    color: "d73a4a"
+    description: Something isn't working
+
+  - name: enhancement
+    color: "a2eeef"
+    description: New feature or request
+
+  - name: documentation
+    color: "0075ca"
+    description: Improvements or additions to documentation
+
+  - name: ci
+    color: "e4e669"
+    description: CI/CD and workflow changes
+
+  - name: macos
+    color: "7aa2f7"
+    description: macOS-specific
+
+  - name: windows
+    color: "9ece6a"
+    description: Windows-specific
+
+  - name: security
+    color: "f7768e"
+    description: Security and privacy
+
+  - name: dependencies
+    color: "bb9af7"
+    description: Dependency updates

@@ -39,11 +39,18 @@ if (Get-Command starship -ErrorAction SilentlyContinue) {
 # --- PSReadLine (enhanced editing) ---
 if (Get-Module -ListAvailable PSReadLine) {
     Set-PSReadLineOption -EditMode Emacs
-    Set-PSReadLineOption -PredictionSource History
-    Set-PSReadLineOption -PredictionViewStyle ListView
     Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
     Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
     Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+
+    # Prediction features require a terminal with virtual terminal support.
+    # Silently skip in non-interactive sessions (CI, redirected output, etc.)
+    try {
+        Set-PSReadLineOption -PredictionSource History
+        Set-PSReadLineOption -PredictionViewStyle ListView
+    } catch {
+        $null = $_ # Predictions unavailable (no virtual terminal)
+    }
 }
 
 # --- Tool completions ---
