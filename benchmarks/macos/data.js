@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773445448298,
+  "lastUpdate": 1773450295181,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -60,6 +60,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.14014693154000002,
             "range": "0.02111903859294284",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f06153c315bdf77026984d69ceec6af8c2e93ec9",
+          "message": "Merge pull request #7 from coreyjonoliver/more-windows\n\nAdd additional Windows support",
+          "timestamp": "2026-03-13T20:04:26-05:00",
+          "tree_id": "c294a2c1ca67c1762b7f779fb2927f859f40f79c",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/f06153c315bdf77026984d69ceec6af8c2e93ec9"
+        },
+        "date": 1773450293536,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.09192023172,
+            "range": "0.014758832585577194",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
