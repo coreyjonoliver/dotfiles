@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773508773082,
+  "lastUpdate": 1773509304865,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -277,6 +277,37 @@ window.BENCHMARK_DATA = {
             "name": "pwsh startup (NoProfile)",
             "value": 0.323961566,
             "range": "0.140840641915229",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0d5d896b3b834760998992479d5ff3673f5dbafc",
+          "message": "Merge pull request #14 from coreyjonoliver/extract-shared-ci\n\nExtract shared CI setup into composite actions",
+          "timestamp": "2026-03-14T12:27:50-05:00",
+          "tree_id": "23206503fa20b1b8c661e8e2e5bd5df675fd6fe4",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/0d5d896b3b834760998992479d5ff3673f5dbafc"
+        },
+        "date": 1773509302092,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "pwsh startup (NoProfile)",
+            "value": 0.234778724,
+            "range": "0.00228859285736405",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
