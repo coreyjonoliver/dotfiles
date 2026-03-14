@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773453393213,
+  "lastUpdate": 1773508738115,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -246,6 +246,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.08491381346000001,
             "range": "0.007377578957698146",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "981d79060ed611c41a049e2cd021e1863f1215fd",
+          "message": "Merge pull request #13 from coreyjonoliver/exclude-scripts\n\nExclude scripts from macOS snippet install CI",
+          "timestamp": "2026-03-14T12:18:36-05:00",
+          "tree_id": "098e25f3992b4fdcdd97992ef2b7743707ad9d72",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/981d79060ed611c41a049e2cd021e1863f1215fd"
+        },
+        "date": 1773508737209,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.06668086504000001,
+            "range": "0.003460456801934976",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
