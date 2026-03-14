@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773452405179,
+  "lastUpdate": 1773452793740,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -184,6 +184,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.06706529264000001,
             "range": "0.011330286317462976",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "efa37ca7813bac68397d6d6f66f48e975a338761",
+          "message": "Merge pull request #11 from coreyjonoliver/add-ai-disclosure\n\nAdd AI disclosure section to README",
+          "timestamp": "2026-03-13T20:46:06-05:00",
+          "tree_id": "2d526a49bf0db27202098b07bf9da8060a125105",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/efa37ca7813bac68397d6d6f66f48e975a338761"
+        },
+        "date": 1773452792694,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.08378142236000001,
+            "range": "0.0059345300520906325",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
