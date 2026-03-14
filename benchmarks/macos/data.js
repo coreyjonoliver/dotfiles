@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773452019128,
+  "lastUpdate": 1773452405179,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -153,6 +153,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.0916303365,
             "range": "0.016970389499254567",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "49fadac62731864a56ca5228574dbcff0a4539ba",
+          "message": "Merge pull request #10 from coreyjonoliver/fix-badges\n\nfix issues with how some badges are rendered",
+          "timestamp": "2026-03-13T20:39:43-05:00",
+          "tree_id": "bb5fba6b4e17d8dcff20fa4e380b1015dcaee899",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/49fadac62731864a56ca5228574dbcff0a4539ba"
+        },
+        "date": 1773452403649,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.06706529264000001,
+            "range": "0.011330286317462976",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
