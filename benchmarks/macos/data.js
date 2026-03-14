@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773450295181,
+  "lastUpdate": 1773451178007,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -91,6 +91,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.09192023172,
             "range": "0.014758832585577194",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fab19708b379c65ddb87c3c86a3069fdbf317e53",
+          "message": "Merge pull request #8 from coreyjonoliver/update-readme\n\nAdd README banners, badges, and snippet install workflow",
+          "timestamp": "2026-03-13T20:19:11-05:00",
+          "tree_id": "876cfce8c00b5752a86c295bdf6e6f2c75ca3e26",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/fab19708b379c65ddb87c3c86a3069fdbf317e53"
+        },
+        "date": 1773451176484,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.0822569927,
+            "range": "0.012432358303113669",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
