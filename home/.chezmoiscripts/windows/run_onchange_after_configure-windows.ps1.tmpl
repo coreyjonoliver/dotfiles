@@ -1,0 +1,93 @@
+{{ if eq .chezmoi.os "windows" -}}
+#Requires -Version 5.1
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+Write-Host "==> Configuring Windows settings..."
+
+# ── 1. Deploy Windows Terminal settings ──────────────────────────────────────
+$WTSettingsDir = Join-Path $env:LOCALAPPDATA "Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
+$WTSettingsSource = Join-Path $HOME ".config\windows-terminal\settings.json"
+$WTSettingsDest = Join-Path $WTSettingsDir "settings.json"
+
+if (Test-Path $WTSettingsSource) {
+    if (Test-Path $WTSettingsDir) {
+        Copy-Item -Path $WTSettingsSource -Destination $WTSettingsDest -Force
+        Write-Host "    ✓ Windows Terminal settings deployed"
+    } else {
+        Write-Host "    ⚠  Windows Terminal not installed — settings will be deployed on next apply"
+    }
+} else {
+    Write-Host "    ⚠  Windows Terminal settings source not found"
+}
+
+# ── 2. Ensure ~/.local/bin is on user PATH ───────────────────────────────────
+$LocalBin = Join-Path $HOME ".local\bin"
+if (-not (Test-Path $LocalBin)) {
+    New-Item -ItemType Directory -Path $LocalBin -Force | Out-Null
+}
+
+$UserPath = [Environment]::GetEnvironmentVariable("PATH", "User")
+if ($UserPath -notlike "*$LocalBin*") {
+    [Environment]::SetEnvironmentVariable("PATH", "$LocalBin;$UserPath", "User")
+    Write-Host "    ✓ Added $LocalBin to user PATH"
+} else {
+    Write-Host "    ✓ $LocalBin already on PATH"
+}
+
+# ── 3. Configure Git to use Windows credential manager ───────────────────────
+if (Get-Command git -ErrorAction SilentlyContinue) {
+    $currentHelper = git config --global credential.helper 2>$null
+    if ($currentHelper -ne "manager") {
+        git config --global credential.helper manager
+        Write-Host "    ✓ Git credential helper set to 'manager'"
+    } else {
+        Write-Host "    ✓ Git credential helper already configured"
+    }
+}
+
+Write-Host "==> Windows configuration complete"
+
+{{ if .use_1password -}}
+# ── 4. 1Password manual configuration ────────────────────────────────────────
+
+Write-Host @"
+
+╔══════════════════════════════════════════════════════════════════════╗
+║           1Password — Manual Configuration Required                  ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  Open: 1Password > Settings (Ctrl+,)                                ║
+║                                                                      ║
+║  ┌─ Settings > Developer ─────────────────────────────────────────┐  ║
+║  │                                                                 │  ║
+║  │  1. ☐ Show Developer Experience                                 │  ║
+║  │       → Enable this FIRST (reveals the options below)           │  ║
+║  │                                                                 │  ║
+║  │  2. ☐ Set Up the SSH Agent                                      │  ║
+║  │       → Lets 1Password manage your SSH keys                     │  ║
+║  │                                                                 │  ║
+║  │  3. ☐ Display key names when authorizing connections            │  ║
+║  │       → Shows which key is being used for each connection       │  ║
+║  │                                                                 │  ║
+║  │  4. ☐ Check for developer credentials on disk                   │  ║
+║  │       → Watchtower alerts for leaked keys/tokens on disk        │  ║
+║  │                                                                 │  ║
+║  └─────────────────────────────────────────────────────────────────┘  ║
+║                                                                      ║
+║  ┌─ Settings > Security ──────────────────────────────────────────┐  ║
+║  │                                                                 │  ║
+║  │  5. ☐ Check for vulnerable passwords                            │  ║
+║  │       → Watchtower checks against Pwned Passwords database      │  ║
+║  │                                                                 │  ║
+║  └─────────────────────────────────────────────────────────────────┘  ║
+║                                                                      ║
+║  After enabling, verify the SSH agent works:                         ║
+║    ssh-add -l                                                        ║
+║    (should list your 1Password SSH keys)                             ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+"@
+{{ end -}}
+{{ end -}}

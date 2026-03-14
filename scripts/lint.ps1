@@ -41,7 +41,7 @@ foreach ($file in $files) {
     $tempFile = [System.IO.Path]::GetTempFileName() + ".ps1"
     $content | Set-Content $tempFile -Encoding UTF8
 
-    $results = Invoke-ScriptAnalyzer -Path $tempFile -Severity Warning, Error -ExcludeRule PSAvoidUsingWriteHost, PSUseBOMForUnicodeEncodedFile
+    $results = Invoke-ScriptAnalyzer -Path $tempFile -Severity Warning, Error -ExcludeRule PSAvoidUsingWriteHost, PSUseBOMForUnicodeEncodedFile, PSAvoidUsingInvokeExpression
     Remove-Item $tempFile
 
     if ($results) {

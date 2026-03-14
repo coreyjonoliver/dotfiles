@@ -11,4 +11,10 @@ Host *
 # Enable "Generate SSH config file with bookmarked hosts" in
 # 1Password > Settings > Developer to populate this file.
 Include ~/.ssh/1Password/config
+{{- else if eq .chezmoi.os "windows" }}
+# --- 1Password SSH Agent (Windows) ---
+# Uses the 1Password SSH agent via named pipe.
+# Enable "Set Up the SSH Agent" in 1Password > Settings > Developer.
+Host *
+    IdentityAgent "\\.\pipe\openssh-ssh-agent"
 {{- end }}
