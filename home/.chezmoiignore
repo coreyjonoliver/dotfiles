@@ -5,10 +5,16 @@ LICENSE
 .chezmoiscripts/darwin/**
 .config/homebrew/**
 .config/1Password/**
+.config/ghostty/**
+.config/brave-private/**
+{{ end }}
+
+{{ if and (ne .chezmoi.os "darwin") (ne .chezmoi.os "windows") }}
 .ssh/config
 {{ end }}
 
 {{ if ne .chezmoi.os "windows" }}
 .chezmoiscripts/windows/**
-Documents/WindowsPowerShell/**
+Documents/PowerShell/**
+.config/windows-terminal/**
 {{ end }}

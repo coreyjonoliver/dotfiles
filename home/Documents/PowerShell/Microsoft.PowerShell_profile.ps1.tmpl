@@ -1,0 +1,52 @@
+# --- Aliases ---
+# Use eza if available (modern ls replacement)
+if (Get-Command eza -ErrorAction SilentlyContinue) {
+    function ls  { eza --icons @args }
+    function ll  { eza -lah --icons --git @args }
+    function la  { eza -a --icons @args }
+    function l   { eza --icons @args }
+    Set-Alias -Name tree -Value { eza --tree --icons @args } -Option AllScope
+}
+
+# Git shortcuts
+function gs { git status @args }
+function gd { git diff @args }
+function ga { git add @args }
+function gc { git commit @args }
+function gp { git push @args }
+function gl { git log --oneline --graph --decorate -20 @args }
+
+# Navigation
+function .. { Set-Location .. }
+function ... { Set-Location ..\.. }
+
+# Utility
+function mkcd { param([string]$Path) New-Item -ItemType Directory -Path $Path -Force | Out-Null; Set-Location $Path }
+function which { param([string]$Name) Get-Command $Name -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source }
+
+# --- direnv ---
+if (Get-Command direnv -ErrorAction SilentlyContinue) {
+    Invoke-Expression "$(direnv hook pwsh)"
+}
+
+# --- Starship prompt ---
+if (Get-Command starship -ErrorAction SilentlyContinue) {
+    Invoke-Expression (&starship init powershell)
+} else {
+    function prompt { "PS $($executionContext.SessionState.Path.CurrentLocation)> " }
+}
+
+# --- PSReadLine (enhanced editing) ---
+if (Get-Module -ListAvailable PSReadLine) {
+    Set-PSReadLineOption -EditMode Emacs
+    Set-PSReadLineOption -PredictionSource History
+    Set-PSReadLineOption -PredictionViewStyle ListView
+    Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+    Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+    Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+}
+
+# --- Tool completions ---
+if (Get-Command kubectl -ErrorAction SilentlyContinue) {
+    kubectl completion powershell | Out-String | Invoke-Expression
+}

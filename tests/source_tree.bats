@@ -39,3 +39,34 @@ setup() {
     grep -q "darwin" "${ROOT_DIR}/home/.chezmoiignore"
     grep -q "windows" "${ROOT_DIR}/home/.chezmoiignore"
 }
+
+@test "windows package install script exists" {
+    [[ -f "${ROOT_DIR}/home/.chezmoiscripts/windows/run_onchange_after_install-packages.ps1.tmpl" ]]
+}
+
+@test "windows configure script exists" {
+    [[ -f "${ROOT_DIR}/home/.chezmoiscripts/windows/run_onchange_after_configure-windows.ps1.tmpl" ]]
+}
+
+@test "powershell profile template exists" {
+    [[ -f "${ROOT_DIR}/home/Documents/PowerShell/Microsoft.PowerShell_profile.ps1.tmpl" ]]
+}
+
+@test "windows terminal settings exist" {
+    [[ -f "${ROOT_DIR}/home/dot_config/windows-terminal/settings.json" ]]
+}
+
+@test "git config handles both macOS and Windows 1Password paths" {
+    grep -q "darwin" "${ROOT_DIR}/home/dot_config/git/config.tmpl"
+    grep -q "windows" "${ROOT_DIR}/home/dot_config/git/config.tmpl"
+}
+
+@test "ssh config handles both macOS and Windows" {
+    grep -q "darwin" "${ROOT_DIR}/home/private_dot_ssh/config.tmpl"
+    grep -q "windows" "${ROOT_DIR}/home/private_dot_ssh/config.tmpl"
+}
+
+@test "packages.toml has both darwin and windows sections" {
+    grep -q "\[darwin\]" "${ROOT_DIR}/home/.chezmoidata/packages.toml"
+    grep -q "\[windows\]" "${ROOT_DIR}/home/.chezmoidata/packages.toml"
+}

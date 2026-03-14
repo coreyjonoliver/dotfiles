@@ -32,53 +32,71 @@ Configuration values (name, email, 1Password preference) are defined in `home/.c
 
 ```
 dotfiles/
-├── .github/workflows/        # CI and benchmark workflows
+├── .github/workflows/        # CI and benchmark workflows (macOS + Windows)
 ├── docs/                     # Component and secrets documentation
-├── scripts/                  # Lint and benchmark scripts
-├── tests/                    # Bats test suite
+├── scripts/                  # Lint and benchmark scripts (sh + ps1)
+├── tests/                    # Bats + Pester test suites
+│   └── windows/              # Pester tests for Windows config
 ├── Taskfile.yml              # Task runner for common operations
 ├── install.sh                # Bootstrap script
 └── home/                     # chezmoi source directory
-    ├── .chezmoi.toml.tmpl    # Configuration data (name, email, 1Password)
+    ├── .chezmoi.toml.tmpl    # Config data (name, email, 1Password, Windows roles)
     ├── .chezmoiexternal.toml # External dependencies (zsh plugins)
     ├── .chezmoiignore        # OS-conditional file ignoring
     ├── .chezmoidata/         # Declarative data (packages, git settings)
     ├── .chezmoiscripts/      # Setup scripts per OS
-    │   └── darwin/           # macOS: Homebrew, packages, defaults, 1Password
+    │   ├── darwin/           # macOS: Homebrew, packages, defaults, 1Password, Brave
+    │   └── windows/          # Windows: winget packages, terminal, Ollama
     ├── .chezmoitemplates/    # Reusable template fragments
-    ├── dot_zshrc.tmpl        # Zsh interactive shell config
-    ├── dot_zprofile.tmpl     # Zsh login shell config
-    ├── private_dot_ssh/      # SSH configuration
+    ├── dot_zshrc.tmpl        # Zsh interactive shell config (macOS)
+    ├── dot_zprofile.tmpl     # Zsh login shell config (macOS)
+    ├── Documents/PowerShell/ # PowerShell profile (Windows)
+    ├── private_dot_ssh/      # SSH configuration (macOS + Windows)
     └── dot_config/
+        ├── brave-private/    # Brave allowlist extension (macOS)
         ├── Code/User/        # VS Code settings and keybindings
-        ├── ghostty/          # Ghostty terminal config
+        ├── ghostty/          # Ghostty terminal config (macOS)
         ├── git/              # Git configuration
         ├── homebrew/         # Brewfile (macOS)
         ├── mise/             # Version manager config
         ├── nvim/             # Neovim configuration
-        ├── private_1Password/# 1Password SSH agent config
-        └── starship.toml     # Starship prompt (Tokyo Night)
+        ├── private_1Password/# 1Password SSH agent config (macOS)
+        ├── starship.toml     # Starship prompt (Tokyo Night)
+        └── windows-terminal/ # Windows Terminal settings
 ```
 
 ## Components
 
+### Cross-Platform
+
 | Component | Files | Description |
 |-----------|-------|-------------|
-| **Shell** | `dot_zshrc.tmpl`, `dot_zprofile.tmpl` | Zsh history, aliases (with eza support), zoxide, mise, tool completions, plugin loading |
-| **Git** | `dot_config/git/` | Identity, aliases, global gitignore, 1Password SSH signing, sensible defaults |
+| **Git** | `dot_config/git/` | Identity, aliases, global gitignore, 1Password SSH signing (macOS + Windows paths), sensible defaults |
 | **Editor** | `dot_config/nvim/init.lua`, `dot_config/Code/User/` | Neovim and VS Code settings |
-| **Packages** | `.chezmoidata/packages.toml` | Declarative Homebrew formulae, casks, taps, and Mac App Store apps |
-| **macOS** | `.chezmoiscripts/darwin/` | Homebrew install, package install, system defaults, 1Password setup |
 | **Prompt** | `dot_config/starship.toml` | Starship prompt with Tokyo Night theme and language modules |
+| **SSH** | `private_dot_ssh/config.tmpl`, `dot_config/private_1Password/` | 1Password SSH agent (macOS socket / Windows named pipe) |
+| **Packages** | `.chezmoidata/packages.toml` | Declarative package lists for Homebrew (macOS) and winget (Windows) |
+
+### macOS
+
+| Component | Files | Description |
+|-----------|-------|-------------|
+| **Shell** | `dot_zshrc.tmpl`, `dot_zprofile.tmpl` | Zsh history, aliases (with eza support), zoxide, mise, direnv, tool completions, plugin loading |
+| **macOS Setup** | `.chezmoiscripts/darwin/` | Homebrew install, package install, system defaults, 1Password setup |
 | **Plugins** | `.chezmoiexternal.toml` | zsh-syntax-highlighting, zsh-autosuggestions |
-| **Terminals** | `dot_config/ghostty/config` | Ghostty with MesloLGS Nerd Font and Tokyo Night theme |
+| **Terminal** | `dot_config/ghostty/config` | Ghostty with MesloLGS Nerd Font and Tokyo Night theme |
 | **Versions** | `dot_config/mise/config.toml` | mise-managed Python, Node.js, Java, Go, and Terraform |
-| **SSH** | `private_dot_ssh/config.tmpl`, `dot_config/private_1Password/` | 1Password SSH agent and key management |
 | **Brave** | `.chezmoiscripts/darwin/configure-brave`, `dot_config/brave-private/` | Hardened "Private" profile with PIA desktop VPN (kill switch), custom allowlist extension (Proton-only by default), strict shields, DNS-over-HTTPS, WebRTC lockdown, 1Password |
 
-### Windows Roles
+### Windows
 
 Windows machines support role-based configuration. Roles are selected interactively during `chezmoi init`.
+
+| Component | Files | Description |
+|-----------|-------|-------------|
+| **Shell** | `Documents/PowerShell/Microsoft.PowerShell_profile.ps1.tmpl` | PowerShell profile with starship, git aliases, eza support, direnv, PSReadLine, kubectl completions |
+| **Windows Setup** | `.chezmoiscripts/windows/` | winget package install, Windows Terminal deployment, Git credential manager, 1Password manual steps |
+| **Terminal** | `dot_config/windows-terminal/settings.json` | Windows Terminal with Tokyo Night theme, MesloLGS Nerd Font, PowerShell Core default |
 
 | Role | Component | Description |
 |------|-----------|-------------|

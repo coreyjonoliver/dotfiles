@@ -39,3 +39,17 @@
     apps = [
       "417375580:BetterSnapTool",
     ]
+
+[windows]
+  [windows.winget]
+    packages = [
+      "AgileBits.1Password",
+      "AgileBits.1Password.CLI",
+      "Git.Git",
+      "Microsoft.WindowsTerminal",
+      "Microsoft.PowerShell",
+      "Neovim.Neovim",
+      "Starship.Starship",
+      "direnv.direnv",
+      "Microsoft.VisualStudioCode",
+    ]
