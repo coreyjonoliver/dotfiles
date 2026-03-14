@@ -9,6 +9,8 @@ tasks:
     cmds:
       - task --list
 
+  # ── Cross-platform (chezmoi) ───────────────────────────────────────────────
+
   install:
     desc: Initialize and apply dotfiles from local source
     cmds:
@@ -44,6 +46,18 @@ tasks:
     cmds:
       - chezmoi doctor
 
+  update:
+    desc: Pull latest changes and apply
+    cmds:
+      - chezmoi update --source {{.CHEZMOI_SOURCE}}
+
+  clean:
+    desc: Remove chezmoi state (keeps applied dotfiles)
+    cmds:
+      - chezmoi purge --force
+
+  # ── macOS ──────────────────────────────────────────────────────────────────
+
   brew:
     desc: Install Homebrew packages from Brewfile
     platforms: [darwin]
@@ -56,15 +70,32 @@ tasks:
     cmds:
       - bash home/.chezmoiscripts/darwin/run_onchange_after_configure-defaults.sh
 
-  update:
-    desc: Pull latest changes and apply
-    cmds:
-      - chezmoi update --source {{.CHEZMOI_SOURCE}}
-
   lint-shell:
     desc: Lint shell scripts with ShellCheck
+    platforms: [darwin, linux]
     cmds:
       - bash scripts/lint.sh
+
+  test-shell:
+    desc: Run Bats test suite
+    platforms: [darwin, linux]
+    cmds:
+      - bats tests/
+
+  benchmark-shell:
+    desc: Benchmark zsh startup time (requires hyperfine)
+    platforms: [darwin, linux]
+    cmds:
+      - bash scripts/run_benchmark.sh
+
+  ci-macos:
+    desc: Run full macOS CI pipeline locally (lint + test)
+    platforms: [darwin]
+    cmds:
+      - task: lint-shell
+      - task: test-shell
+
+  # ── Windows ────────────────────────────────────────────────────────────────
 
   lint-powershell:
     desc: Lint PowerShell scripts with PSScriptAnalyzer
@@ -72,30 +103,21 @@ tasks:
     cmds:
       - pwsh -File scripts/lint.ps1
 
-  test:
-    desc: Run Bats test suite
-    cmds:
-      - bats tests/
-
   test-windows:
     desc: Run Pester tests for Windows
     platforms: [windows]
     cmds:
       - pwsh -Command "Invoke-Pester -Path tests/windows -Output Detailed"
 
-  benchmark:
-    desc: Benchmark zsh startup time
-    platforms: [darwin, linux]
+  benchmark-windows:
+    desc: Benchmark PowerShell startup time (requires hyperfine)
+    platforms: [windows]
     cmds:
-      - bash scripts/run_benchmark.sh
+      - pwsh -File scripts/run_benchmark.ps1
 
-  ci:
-    desc: Run full CI pipeline locally (lint + test)
+  ci-windows:
+    desc: Run full Windows CI pipeline locally (lint + test)
+    platforms: [windows]
     cmds:
-      - task: lint-shell
-      - task: test
-
-  clean:
-    desc: Remove chezmoi state (keeps applied dotfiles)
-    cmds:
-      - chezmoi purge --force
+      - task: lint-powershell
+      - task: test-windows
