@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773513912577,
+  "lastUpdate": 1773515004523,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -339,6 +339,37 @@ window.BENCHMARK_DATA = {
             "name": "pwsh startup (NoProfile)",
             "value": 0.239970944,
             "range": "0.00531557985585769",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "99c36a6ccdfed17b3b37b4a4b1aa628aa0528af6",
+          "message": "Merge pull request #16 from coreyjonoliver/enable-touch-id\n\nEnable Touch ID for sudo",
+          "timestamp": "2026-03-14T14:02:43-05:00",
+          "tree_id": "18ffba1acf649cb78fb300625f82c72e59bfe51b",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/99c36a6ccdfed17b3b37b4a4b1aa628aa0528af6"
+        },
+        "date": 1773515001690,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "pwsh startup (NoProfile)",
+            "value": 0.230121172,
+            "range": "0.00515162363649666",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
