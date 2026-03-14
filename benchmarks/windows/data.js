@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773445451014,
+  "lastUpdate": 1773450301261,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -60,6 +60,37 @@ window.BENCHMARK_DATA = {
             "name": "pwsh startup (NoProfile)",
             "value": 0.229709088,
             "range": "0.00423940810649841",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f06153c315bdf77026984d69ceec6af8c2e93ec9",
+          "message": "Merge pull request #7 from coreyjonoliver/more-windows\n\nAdd additional Windows support",
+          "timestamp": "2026-03-13T20:04:26-05:00",
+          "tree_id": "c294a2c1ca67c1762b7f779fb2927f859f40f79c",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/f06153c315bdf77026984d69ceec6af8c2e93ec9"
+        },
+        "date": 1773450299284,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "pwsh startup (NoProfile)",
+            "value": 0.229943066,
+            "range": "0.00293881329481439",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
