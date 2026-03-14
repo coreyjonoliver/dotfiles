@@ -213,6 +213,10 @@ This repository's architecture was informed by several excellent dotfiles repos:
 - [halostatue/dotfiles](https://github.com/halostatue/dotfiles) — ShellCheck and EditorConfig patterns
 - [chezmoi](https://chezmoi.io) — The dotfile management tool
 
+## AI Disclosure
+
+This repository was developed with the assistance of AI tools. All generated code was manually reviewed, validated, and tested before being committed.
+
 ## License
 
 MIT
