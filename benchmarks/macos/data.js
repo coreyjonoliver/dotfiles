@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773451178007,
+  "lastUpdate": 1773452019128,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -122,6 +122,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.0822569927,
             "range": "0.012432358303113669",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "88335df497c977c648df636dbeea1016c1c7d021",
+          "message": "Merge pull request #9 from coreyjonoliver/update-readme2\n\nadd badges to headers and platform sections of README",
+          "timestamp": "2026-03-13T20:33:08-05:00",
+          "tree_id": "30e9cb3ddd225508335f6fc49c0950ef2d8f0705",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/88335df497c977c648df636dbeea1016c1c7d021"
+        },
+        "date": 1773452017389,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.0916303365,
+            "range": "0.016970389499254567",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
