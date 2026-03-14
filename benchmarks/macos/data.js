@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773509292074,
+  "lastUpdate": 1773513888797,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -308,6 +308,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.07226889074000002,
             "range": "0.005720358940170106",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "778825d6537dbb93b150d69995f9cb771033b0fd",
+          "message": "Merge pull request #15 from coreyjonoliver/add-repo-as-codee\n\nAdd repo-as-code settings, CODEOWNERS, and fork guide",
+          "timestamp": "2026-03-14T13:44:25-05:00",
+          "tree_id": "7bede798f31fa335ec5d652d2107bc004560ba0d",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/778825d6537dbb93b150d69995f9cb771033b0fd"
+        },
+        "date": 1773513887546,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.06647760752,
+            "range": "0.009731037331137874",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
