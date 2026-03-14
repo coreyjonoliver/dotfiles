@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773452421626,
+  "lastUpdate": 1773452797449,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -184,6 +184,37 @@ window.BENCHMARK_DATA = {
             "name": "pwsh startup (NoProfile)",
             "value": 0.237446552,
             "range": "0.0033785158016173",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "efa37ca7813bac68397d6d6f66f48e975a338761",
+          "message": "Merge pull request #11 from coreyjonoliver/add-ai-disclosure\n\nAdd AI disclosure section to README",
+          "timestamp": "2026-03-13T20:46:06-05:00",
+          "tree_id": "2d526a49bf0db27202098b07bf9da8060a125105",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/efa37ca7813bac68397d6d6f66f48e975a338761"
+        },
+        "date": 1773452795560,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "pwsh startup (NoProfile)",
+            "value": 0.248704378,
+            "range": "0.00440177295770946",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
