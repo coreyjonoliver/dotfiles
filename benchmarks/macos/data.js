@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773514985120,
+  "lastUpdate": 1773516021501,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -370,6 +370,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.06304354352,
             "range": "0.006671222620249022",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e4a7dbc7f349a9bdfb52f9ead6a61f3e093e6440",
+          "message": "Merge pull request #17 from coreyjonoliver/remove-gh-pages\n\nRemove gh-pages rule from repository settings",
+          "timestamp": "2026-03-14T14:19:57-05:00",
+          "tree_id": "6074a42a9821bb8898d046be69639c6197f0aca9",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/e4a7dbc7f349a9bdfb52f9ead6a61f3e093e6440"
+        },
+        "date": 1773516020183,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.06850456078000002,
+            "range": "0.002849656939201567",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
