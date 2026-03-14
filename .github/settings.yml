@@ -63,15 +63,6 @@ branches:
       # No restrictions on who can push (personal repo)
       restrictions: null
 
-  - name: gh-pages
-    protection:
-      required_pull_request_reviews: null
-      required_status_checks: null
-      enforce_admins: true
-      allow_force_pushes: false
-      allow_deletions: false
-      restrictions: null
-
 # ── Labels ───────────────────────────────────────────────────────────────────
 labels:
   - name: bug
