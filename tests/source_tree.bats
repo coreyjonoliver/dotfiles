@@ -70,3 +70,11 @@ setup() {
     grep -q "\[darwin\]" "${ROOT_DIR}/home/.chezmoidata/packages.toml"
     grep -q "\[windows\]" "${ROOT_DIR}/home/.chezmoidata/packages.toml"
 }
+
+@test "composite action for macOS exists" {
+    [[ -f "${ROOT_DIR}/.github/actions/setup-chezmoi-macos/action.yml" ]]
+}
+
+@test "composite action for Windows exists" {
+    [[ -f "${ROOT_DIR}/.github/actions/setup-chezmoi-windows/action.yml" ]]
+}

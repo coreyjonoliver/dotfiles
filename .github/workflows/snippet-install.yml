@@ -20,8 +20,9 @@ jobs:
       - name: Install and apply dotfiles (macOS)
         if: matrix.os == 'macos-latest'
         run: |
-          sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply --exclude=scripts coreyjonoliver \
-            --promptBool "use_1password=false"
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply coreyjonoliver \
+            --promptBool "use_1password=false" \
+            --exclude=scripts
 
       - name: Install and apply dotfiles (Windows)
         if: matrix.os == 'windows-latest'

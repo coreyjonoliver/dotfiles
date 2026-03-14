@@ -3,6 +3,8 @@ name: Benchmark
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -17,26 +19,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install chezmoi
-        run: sh -c "$(curl -fsSL https://get.chezmoi.io)" -- -b /usr/local/bin
+      - name: Setup chezmoi
+        uses: ./.github/actions/setup-chezmoi-macos
 
       - name: Install hyperfine
         run: brew install hyperfine
-
-      - name: Create test config
-        run: |
-          mkdir -p "${HOME}/.config/chezmoi"
-          cat > "${HOME}/.config/chezmoi/chezmoi.toml" << 'EOF'
-          [data]
-              name = "Test User"
-              email = "test@example.com"
-              github_username = "testuser"
-              personal = true
-              use_1password = false
-          EOF
-
-      - name: Apply dotfiles
-        run: chezmoi apply --source "${GITHUB_WORKSPACE}" --exclude=scripts
 
       - name: Run benchmark
         run: bash scripts/run_benchmark.sh
@@ -44,6 +31,7 @@ jobs:
       # Requires a gh-pages branch. Create with:
       #   git checkout --orphan gh-pages && git rm -rf . && git commit --allow-empty -m "Init gh-pages" && git push origin gh-pages && git checkout -
       - name: Store benchmark result
+        if: github.ref == 'refs/heads/main'
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: customSmallerIsBetter
@@ -73,6 +61,7 @@ jobs:
         run: .\scripts\run_benchmark.ps1
 
       - name: Store benchmark result
+        if: github.ref == 'refs/heads/main'
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: customSmallerIsBetter
