@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773453416393,
+  "lastUpdate": 1773508773082,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -246,6 +246,37 @@ window.BENCHMARK_DATA = {
             "name": "pwsh startup (NoProfile)",
             "value": 0.248936686,
             "range": "0.00632163615164444",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "981d79060ed611c41a049e2cd021e1863f1215fd",
+          "message": "Merge pull request #13 from coreyjonoliver/exclude-scripts\n\nExclude scripts from macOS snippet install CI",
+          "timestamp": "2026-03-14T12:18:36-05:00",
+          "tree_id": "098e25f3992b4fdcdd97992ef2b7743707ad9d72",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/981d79060ed611c41a049e2cd021e1863f1215fd"
+        },
+        "date": 1773508762035,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "pwsh startup (NoProfile)",
+            "value": 0.323961566,
+            "range": "0.140840641915229",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
