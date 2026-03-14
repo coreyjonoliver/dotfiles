@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773452793740,
+  "lastUpdate": 1773453393213,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -215,6 +215,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.08378142236000001,
             "range": "0.0059345300520906325",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fb6665681c56eb2372024f9d55a431628f7f8b00",
+          "message": "Merge pull request #12 from coreyjonoliver/update-taskfile\n\nMake Taskfile platform-aware",
+          "timestamp": "2026-03-13T20:56:08-05:00",
+          "tree_id": "98fc2742c9f0c95e2a393560c123c1d2d069167d",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/fb6665681c56eb2372024f9d55a431628f7f8b00"
+        },
+        "date": 1773453392238,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.08491381346000001,
+            "range": "0.007377578957698146",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
