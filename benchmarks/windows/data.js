@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773452024101,
+  "lastUpdate": 1773452421626,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -153,6 +153,37 @@ window.BENCHMARK_DATA = {
             "name": "pwsh startup (NoProfile)",
             "value": 0.237318588,
             "range": "0.00329788197848255",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "49fadac62731864a56ca5228574dbcff0a4539ba",
+          "message": "Merge pull request #10 from coreyjonoliver/fix-badges\n\nfix issues with how some badges are rendered",
+          "timestamp": "2026-03-13T20:39:43-05:00",
+          "tree_id": "bb5fba6b4e17d8dcff20fa4e380b1015dcaee899",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/49fadac62731864a56ca5228574dbcff0a4539ba"
+        },
+        "date": 1773452419142,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "pwsh startup (NoProfile)",
+            "value": 0.237446552,
+            "range": "0.0033785158016173",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
