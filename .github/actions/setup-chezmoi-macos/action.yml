@@ -1,0 +1,36 @@
+name: Setup chezmoi (macOS)
+description: Install chezmoi, create test config, and apply dotfiles on macOS
+
+inputs:
+  source:
+    description: "Chezmoi source directory"
+    required: false
+    default: ${{ github.workspace }}
+  exclude:
+    description: "Chezmoi --exclude flag"
+    required: false
+    default: "scripts"
+
+runs:
+  using: composite
+  steps:
+    - name: Install chezmoi
+      shell: bash
+      run: sh -c "$(curl -fsSL https://get.chezmoi.io)" -- -b /usr/local/bin
+
+    - name: Create test config
+      shell: bash
+      run: |
+        mkdir -p "${HOME}/.config/chezmoi"
+        cat > "${HOME}/.config/chezmoi/chezmoi.toml" << 'EOF'
+        [data]
+            name = "Test User"
+            email = "test@example.com"
+            github_username = "testuser"
+            personal = true
+            use_1password = false
+        EOF
+
+    - name: Apply dotfiles
+      shell: bash
+      run: chezmoi apply --source "${{ inputs.source }}" --exclude=${{ inputs.exclude }}

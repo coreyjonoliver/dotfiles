@@ -28,26 +28,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install chezmoi
-        run: sh -c "$(curl -fsSL https://get.chezmoi.io)" -- -b /usr/local/bin
-
-      - name: Create test config
-        run: |
-          mkdir -p "${HOME}/.config/chezmoi"
-          cat > "${HOME}/.config/chezmoi/chezmoi.toml" << 'EOF'
-          [data]
-              name = "Test User"
-              email = "test@example.com"
-              github_username = "testuser"
-              personal = true
-              use_1password = false
-          EOF
+      - name: Setup chezmoi
+        uses: ./.github/actions/setup-chezmoi-macos
 
       - name: Apply dotfiles (dry run)
         run: chezmoi apply --source "${GITHUB_WORKSPACE}" --exclude=scripts --dry-run --verbose
-
-      - name: Apply dotfiles
-        run: chezmoi apply --source "${GITHUB_WORKSPACE}" --exclude=scripts
 
       - name: Verify .zshrc exists
         run: test -f "${HOME}/.zshrc"
@@ -81,8 +66,7 @@ jobs:
 
       - name: Install PSScriptAnalyzer
         shell: pwsh
-        run: |
-          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+        run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
 
       - name: Lint PowerShell scripts
         shell: pwsh
@@ -94,39 +78,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install chezmoi
-        shell: pwsh
-        run: |
-          Invoke-WebRequest -Uri "https://get.chezmoi.io/ps1" -OutFile install.ps1
-          & .\install.ps1 -b "$env:USERPROFILE\.local\bin"
-          echo "$env:USERPROFILE\.local\bin" | Out-File -Append $env:GITHUB_PATH
-
-      - name: Create test config
-        shell: pwsh
-        run: |
-          $configDir = Join-Path $env:USERPROFILE ".config\chezmoi"
-          New-Item -ItemType Directory -Path $configDir -Force | Out-Null
-          @"
-          [data]
-              name = "Test User"
-              email = "test@example.com"
-              github_username = "testuser"
-              personal = true
-              use_1password = false
-
-          [data.roles]
-              ai = true
-              developer = false
-              gaming = false
-          "@ | Set-Content -Path (Join-Path $configDir "chezmoi.toml") -Encoding UTF8
+      - name: Setup chezmoi
+        uses: ./.github/actions/setup-chezmoi-windows
 
       - name: Apply dotfiles (dry run)
         shell: pwsh
         run: chezmoi apply --source "$env:GITHUB_WORKSPACE" --exclude=scripts --dry-run --verbose
-
-      - name: Apply dotfiles (exclude scripts)
-        shell: pwsh
-        run: chezmoi apply --source "$env:GITHUB_WORKSPACE" --exclude=scripts
 
       - name: Run Pester tests
         shell: pwsh
