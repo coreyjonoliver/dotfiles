@@ -70,7 +70,11 @@ Configuration values (name, email, 1Password preference, Windows roles) are defi
 
 ```
 dotfiles/
-├── .github/workflows/        # CI and benchmark workflows (macOS + Windows)
+├── .github/
+│   ├── actions/              # Composite actions for CI setup
+│   ├── CODEOWNERS            # Code owner review requirements for sensitive files
+│   ├── settings.yml          # Repository settings (branch protection, labels)
+│   └── workflows/            # CI, benchmark, and snippet install workflows
 ├── docs/                     # Component and secrets documentation
 ├── scripts/                  # Lint and benchmark scripts (sh + ps1)
 ├── tests/                    # Bats + Pester test suites
@@ -207,6 +211,54 @@ Benchmarks run on every merge to `main`. Performance regressions over 150% trigg
 ## 🔄 Snippet Install
 
 The [Snippet install](https://github.com/coreyjonoliver/dotfiles/actions/workflows/snippet-install.yml) workflow runs weekly (every Friday) and on manual trigger. It simulates a fresh machine by running `chezmoi init --apply` from the remote repo on both macOS and Windows runners, verifying that the dotfiles can be bootstrapped from scratch without errors.
+
+## 🔒 Repository Settings
+
+Repository configuration (branch protection, merge settings, labels, security) is managed as code via [`.github/settings.yml`](.github/settings.yml) and synced by the [Settings](https://github.com/apps/settings) GitHub App. This ensures:
+
+- `main` and `gh-pages` branches are protected: no force pushes, no deletion, CI must pass before merge to main
+- Feature branches are unrestricted (force push, delete allowed)
+- Squash merge with PR title/body for clean history
+- Auto-delete merged branches
+- Vulnerability alerts and automated security fixes enabled
+- Consistent labels across issues and PRs
+
+Settings are based on the [probot/settings app documentation](https://github.com/repository-settings/app), [GitHub's branch protection API](https://docs.github.com/en/rest/branches/branch-protection), and common conventions across popular open source repositories. Review and adjust to fit your own workflow.
+
+**Security note:** The Settings app syncs any changes pushed to `settings.yml` on the default branch, which means anyone with push access can modify branch protection rules. A [`.github/CODEOWNERS`](.github/CODEOWNERS) file is included to require code owner review on `settings.yml`, workflows, composite actions, and other sensitive paths. For a personal repo this is a safeguard against accidental changes; in a team context it prevents privilege escalation. See the [probot/settings security warning](https://github.com/repository-settings/app#security) for details.
+
+## 🍴 Forking / Reusing This Repo
+
+If you fork or use this repo as a starting point for your own dotfiles, here are the setup steps:
+
+1. **Edit `home/.chezmoi.toml.tmpl`** — Replace name, email, GitHub username, and 1Password preferences with your own.
+
+2. **Install the [Settings](https://github.com/apps/settings) GitHub App** — This syncs `.github/settings.yml` to your repo. Update the `repository.name`, `repository.description`, and `repository.homepage` fields. Review branch protection rules and adjust the required status check names if you rename any CI jobs.
+
+3. **Update `.github/CODEOWNERS`** — Replace `@coreyjonoliver` with your own GitHub username.
+
+3. **Install the [Renovate](https://github.com/apps/renovate) GitHub App** — This handles automated dependency updates via `renovate.yaml`.
+
+4. **Create the `gh-pages` branch** for benchmark dashboards:
+   ```bash
+   git checkout --orphan gh-pages
+   git rm -rf .
+   git commit --allow-empty -m "Init gh-pages"
+   git push origin gh-pages
+   git checkout main
+   ```
+
+5. **Set the `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` repo variable** — Go to Settings → Secrets and variables → Actions → Variables and add it with value `true`. This is only needed for the auto-generated GitHub Pages deployment workflow, which can't be configured via a file. All other workflows already set this inline.
+
+6. **Update platform-specific configs:**
+   - macOS: Edit `home/.chezmoidata/packages.toml` to add/remove Homebrew packages. Update the 1Password SSH signing key in `home/dot_config/git/config.tmpl`.
+   - Windows: Edit the `[windows.winget]` section in `packages.toml`. Adjust roles in `.chezmoi.toml.tmpl` as needed.
+
+7. **Update the Brave Private profile** (macOS) — Edit `home/dot_config/brave-private/allowlist.conf` to set your own allowed domains.
+
+8. **Update the header banner** — Replace `.github/header.svg` with your own or edit the text.
+
+9. **Remove or update the Ollama config** (Windows) — If you don't need local LLMs, set `roles.ai = false` during `chezmoi init` or remove the script.
 
 ## Acknowledgements
 

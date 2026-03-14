@@ -78,3 +78,15 @@ setup() {
 @test "composite action for Windows exists" {
     [[ -f "${ROOT_DIR}/.github/actions/setup-chezmoi-windows/action.yml" ]]
 }
+
+@test "repository settings file exists" {
+    [[ -f "${ROOT_DIR}/.github/settings.yml" ]]
+}
+
+@test "CODEOWNERS file exists" {
+    [[ -f "${ROOT_DIR}/.github/CODEOWNERS" ]]
+}
+
+@test "CODEOWNERS protects settings.yml" {
+    grep -q "settings.yml" "${ROOT_DIR}/.github/CODEOWNERS"
+}
