@@ -81,6 +81,10 @@ if command -v kubectl &>/dev/null; then
     eval "$(kubectl completion zsh)"
 fi
 
+if command -v helm &>/dev/null; then
+    eval "$(helm completion zsh)"
+fi
+
 if command -v talosctl &>/dev/null; then
     eval "$(talosctl completion zsh)"
 fi

@@ -14,6 +14,7 @@
   <a href="https://github.com/starship/starship"><img src="https://img.shields.io/github/v/tag/starship/starship?color=DD0B78&display_name=release&label=starship&logo=starship&logoColor=DD0B78&sort=semver" alt="starship"></a>
   <a href="https://github.com/jdx/mise"><img src="https://img.shields.io/github/v/tag/jdx/mise?color=00acc1&display_name=release&label=mise&logo=gnometerminal&logoColor=00acc1&sort=semver" alt="mise"></a>
   <a href="https://github.com/Neovim/neovim"><img src="https://img.shields.io/github/v/tag/neovim/neovim?color=57A143&display_name=release&label=neovim&logo=neovim&logoColor=57A143&sort=semver" alt="neovim"></a>
+  <a href="https://github.com/helm/helm"><img src="https://img.shields.io/github/v/tag/helm/helm?color=0F1689&display_name=release&label=helm&logo=helm&logoColor=0F1689&sort=semver" alt="helm"></a>
 </p>
 
 <p align="center">

@@ -12,6 +12,7 @@
       "gh",
       "git",
       "go-task",
+      "helm",
       "kubectl",
       "mas",          # add mas CLI to install App Store apps
       "mise",
