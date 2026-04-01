@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773516021501,
+  "lastUpdate": 1775070442275,
   "repoUrl": "https://github.com/coreyjonoliver/dotfiles",
   "entries": {
     "Benchmark": [
@@ -401,6 +401,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh interactive startup",
             "value": 0.06850456078000002,
             "range": "0.002849656939201567",
+            "unit": "seconds",
+            "extra": "hyperfine --warmup 3 --runs 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "corey.jon.oliver@gmail.com",
+            "name": "Corey Oliver",
+            "username": "coreyjonoliver"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a7dee7d57fe478b32206c168db8d372731074c78",
+          "message": "Add helm and pin chezmoi external deps in renovate (#18)",
+          "timestamp": "2026-04-01T14:06:59-05:00",
+          "tree_id": "5a2d851d1c3d666a57fd242db9287e637ef19194",
+          "url": "https://github.com/coreyjonoliver/dotfiles/commit/a7dee7d57fe478b32206c168db8d372731074c78"
+        },
+        "date": 1775070441251,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh interactive startup",
+            "value": 0.06747290244,
+            "range": "0.004299424816288285",
             "unit": "seconds",
             "extra": "hyperfine --warmup 3 --runs 10"
           }
