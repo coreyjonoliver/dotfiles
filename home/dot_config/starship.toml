@@ -19,6 +19,7 @@ $golang\
 $python\
 $java\
 $terraform\
+$helm\
 [](fg:#212736 bg:#1d2230)\
 $cmd_duration\
 $time\
@@ -73,6 +74,11 @@ format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
 
 [terraform]
 symbol = "󱁢"
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[helm]
+symbol = "⎈"
 style = "bg:#212736"
 format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
 
