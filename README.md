@@ -49,7 +49,7 @@ cd ~/Projects/dotfiles
 **Snippet install (PowerShell):**
 
 ```powershell
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply coreyjonoliver
+& ([scriptblock]::Create((irm -useb https://get.chezmoi.io/ps1))) -BinDir "$HOME\bin" -- init --apply coreyjonoliver
 ```
 
 **Or with chezmoi already installed:**
