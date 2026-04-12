@@ -51,6 +51,7 @@
       "Microsoft.WindowsTerminal",
       "Microsoft.PowerShell",
       "Neovim.Neovim",
+      "sharkdp.hyperfine",
       "Starship.Starship",
       "direnv.direnv",
       "Microsoft.VisualStudioCode",
